@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
+import { ToastrService } from 'ngx-toastr';
 import { ProductService } from 'src/app/services/product.service';
 
 @Component({
@@ -15,11 +16,13 @@ export class ProductAddComponent implements OnInit{
   description : string = '';
   price : number = 0;
   urlImage : string = '';
-  userId : string = '1';
-  categoryId : string = '1';
+  userId : string = '2';
+  categoryId : string = '5';
+
+  selectFile! : File;
 
   constructor(private productService : ProductService,private router:Router,
-    private activatedRoute:ActivatedRoute){
+    private activatedRoute:ActivatedRoute,private toastr:ToastrService){
       this.getProductById();
   }
   ngOnInit(): void {
@@ -33,7 +36,7 @@ export class ProductAddComponent implements OnInit{
     formData.append('name', this.name);
     formData.append('description',this.description);
     formData.append('price', this.price.toString());
-    //formData.append('image', this.selectFile);
+    formData.append('image', this.selectFile);
     formData.append('urlImage', this.urlImage);
     formData.append('userId', this.userId);
     formData.append('categoryId', this.categoryId);
@@ -41,7 +44,12 @@ export class ProductAddComponent implements OnInit{
 
     this.productService.createProduct(formData).subscribe(
       data => {
-        console.log(data);    
+        console.log(data);   
+        if(this.id==0){
+          this.toastr.success('Producto registrado correctamante', 'Productos');
+        }else{
+          this.toastr.success('Producto actualizado correctamante', 'Productos');
+        } 
         this.router.navigate(['admin/product']); 
       }
     );
@@ -72,6 +80,10 @@ export class ProductAddComponent implements OnInit{
       }
 
     );
+  }
+
+  onFileSelected(event : any){
+    this.selectFile = event.target.files[0];
   }
 
 }
