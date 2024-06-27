@@ -10,12 +10,24 @@ import { Routes,RouterModule } from '@angular/router';
 import { ProductAddComponent } from './components/product-add/product-add.component';
 import { FormsModule } from '@angular/forms';
 import { ToastrModule } from 'ngx-toastr';
+import { CategoryListComponent } from './components/category/category-list/category-list.component';
+import { CategoryAddComponent } from './components/category/category-add/category-add.component';
 
 const routes : Routes = [
   {path:'', component:HomeComponent},
   {path:'admin/product', component: ProductListComponent},
   {path:'admin/product/addproduct', component: ProductAddComponent},
-  {path: 'admin/product/update/:id', component:ProductAddComponent }
+  {path: 'admin/product/update/:id', component:ProductAddComponent },
+
+  {path: 'admin/category', component:CategoryListComponent },
+  {path: 'admin/category/add', component:CategoryAddComponent},
+  {path: 'admin/category/update/:id', component:CategoryAddComponent},
+  /*{path: 'cart/detailproduct/:id', component:DetailProductComponent},
+  {path: 'cart/sumary', component: SumaryOrderComponent, canActivate: [authGuard]},
+  {path: 'payment/success', component: PaymentSuccessComponent},
+  {path: 'user/register', component: RegistrationComponent},
+  {path: 'user/login', component: LoginComponent},
+  {path: 'logout', component: LogoutComponent}*/
 ];
 
 @NgModule({
@@ -24,7 +36,9 @@ const routes : Routes = [
     HomeComponent,
     ProductListComponent,
     HeaderAdminComponent,
-    ProductAddComponent
+    ProductAddComponent,
+    CategoryListComponent,
+    CategoryAddComponent
   ],
   imports: [
     BrowserModule,
