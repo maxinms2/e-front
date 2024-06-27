@@ -13,39 +13,39 @@ export class CartService {
   constructor() { }
 
   addItemCart(itemCart : ItemCart){
-    //this.items.set(itemCart.productId, itemCart);
+    this.items.set(itemCart.productId, itemCart);
   }
 
   deleteItemCart(productId:number){
-    /*this.items.delete(productId);
+    this.items.delete(productId);
     this.items.forEach(
       (valor, clave)=>{
         console.log('esta es la clave y su valor: '+clave, valor);
       }
 
-    );*/
+    );
   }
   
   totalCart(){
-   /* let totalCart:number=0;
+   let totalCart:number=0;
     this.items.forEach(
       (item, clave)=>{
         totalCart+= item.getTotalPriceItem();
       }
 
     );
-    return totalCart;*/
+    return totalCart;
   }
 
   convertToListFromMap(){
-    /*this.itemList.splice(0,this.itemList.length);
+    this.itemList.splice(0,this.itemList.length);
     this.items.forEach(
       (item, clave)=>{
         this.itemList.push(item);
       }
 
     );
-    return this.itemList;*/
+    return this.itemList;
   }
 
 }
