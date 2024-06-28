@@ -1,10 +1,13 @@
 import { Component, OnInit } from '@angular/core';
+import { DataPayment } from 'src/app/common/data-payment';
 import { ItemCart } from 'src/app/common/item-cart';
 import { Order } from 'src/app/common/order';
 import { OrderProduct } from 'src/app/common/order-product';
 import { OrderState } from 'src/app/common/order-state';
 import { CartService } from 'src/app/services/cart.service';
 import { OrderService } from 'src/app/services/order.service';
+import { PaymentService } from 'src/app/services/payment.service';
+import { SessionStorageService } from 'src/app/services/session-storage.service';
 import { UserService } from 'src/app/services/user.service';
 
 @Component({
@@ -14,46 +17,60 @@ import { UserService } from 'src/app/services/user.service';
 })
 export class SumaryOrderComponent implements OnInit {
 
-  items : ItemCart [] = [];
-  totalCart : number =0;
-  firstName : string = '';
-  lastName : string = '';
-  email : string = '';
-  address : string ='';
-  orderProducts:OrderProduct [] = [];
-  userId : number =2;
+  items: ItemCart[] = [];
+  totalCart: number = 0;
+  firstName: string = '';
+  lastName: string = '';
+  email: string = '';
+  address: string = '';
+  orderProducts: OrderProduct[] = [];
+  userId: number = 2;
 
-  constructor(private cartService:CartService 
-    ,private userService:UserService, 
-    private orderService:OrderService, 
-    /*private paymentService:PaymentService,
-    private sessionStorage:SessionStorageService*/
-    ){}
+  constructor(private cartService: CartService
+    , private userService: UserService,
+    private orderService: OrderService,
+    private paymentService: PaymentService,
+    private sessionStorage:SessionStorageService
+  ) { }
 
   ngOnInit(): void {
     this.actualizaItems();
     this.getUserById(this.userId);
   }
 
-  generateOrder(){
+  generateOrder() {
     this.items.forEach(
-      item=>{
+      item => {
         let orderProduct = new OrderProduct(null, item.productId, item.quantity, item.price);
         this.orderProducts.push(orderProduct);
       }
     );
 
     let order = new Order(null, new Date(), this.orderProducts, this.userId, OrderState.CANCELLED);
-    console.log('Order: '+ order.orderState);
+    console.log('Order: ' + order.orderState);
     this.orderService.createOrder(order).subscribe(
       data => {
-        console.log('Order creada con id: '+ data.id);
-        //this.sessionStorage.setItem('order',data);
+        console.log('Order creada con id: ' + data.id);
+        this.sessionStorage.setItem('order',data);
+      }
+    );
+
+    //redireccion y pago con paypal
+    let urlPayment;
+    let dataPayment = new DataPayment('PAYPAL', this.totalCart.toString(), 'USD', 'COMPRA');
+
+    console.log('Data Payment:', dataPayment);
+
+    this.paymentService.getUrlPaypalPayment(dataPayment).subscribe(
+      data => {
+        urlPayment = data.url;
+        console.log('Respuesta exitosa...');
+        window.location.href = urlPayment;
       }
     );
   }
 
-  deleteItemCart(productId:number){
+  deleteItemCart(productId: number) {
     this.cartService.deleteItemCart(productId);
     this.actualizaItems();
   }
@@ -63,7 +80,7 @@ export class SumaryOrderComponent implements OnInit {
     this.totalCart = this.cartService.totalCart();
   }
 
-  getUserById(id:number){
+  getUserById(id: number) {
     this.userService.getUserById(id).subscribe(
       data => {
         this.firstName = data.firstName;
