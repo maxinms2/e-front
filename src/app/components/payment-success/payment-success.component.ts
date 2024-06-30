@@ -29,9 +29,9 @@ export class PaymentSuccessComponent implements OnInit {
     this.orderService.updateOrder(formData).subscribe(
       data => { 
         console.log(data)
-        /*console.log('LogoutComponent: '+ this.sessionStorage.getItem('token'))
+        console.log('LogoutComponent: '+ this.sessionStorage.getItem('token'))  
         this.sessionStorage.removeItem('token');
-        console.log('LogoutComponent eliminado: '+ this.sessionStorage.getItem('token'));*/
+        console.log('LogoutComponent eliminado: '+ this.sessionStorage.getItem('token'));
       
       }
     );

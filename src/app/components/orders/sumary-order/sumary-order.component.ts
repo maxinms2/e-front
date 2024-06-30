@@ -24,7 +24,7 @@ export class SumaryOrderComponent implements OnInit {
   email: string = '';
   address: string = '';
   orderProducts: OrderProduct[] = [];
-  userId: number = 2;
+  userId: number = 0;
 
   constructor(private cartService: CartService
     , private userService: UserService,
@@ -35,7 +35,12 @@ export class SumaryOrderComponent implements OnInit {
 
   ngOnInit(): void {
     this.actualizaItems();
+    this.userId = this.sessionStorage.getItem('token').id;
     this.getUserById(this.userId);
+    setTimeout(
+      ()=>{
+        this.sessionStorage.removeItem('token');
+      }, 600000);
   }
 
   generateOrder() {
