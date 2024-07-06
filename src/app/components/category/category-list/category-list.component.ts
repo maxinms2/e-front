@@ -9,13 +9,11 @@ import Swal from 'sweetalert2';
   templateUrl: './category-list.component.html',
   styleUrls: ['./category-list.component.css']
 })
-export class CategoryListComponent implements OnInit{
+export class CategoryListComponent implements OnInit {
 
   categories: Category [] = [];
 
-  constructor(private categoryService:CategoryService, private toastr:ToastrService
-      
-  ){}
+  constructor(private categoryService:CategoryService, private toastr:ToastrService){}
 
 
   ngOnInit(): void {
@@ -54,6 +52,5 @@ export class CategoryListComponent implements OnInit{
     })
 
   }
-
 
 }

@@ -17,6 +17,7 @@ export class LoginComponent implements OnInit{
   ngOnInit(): void {
 
   }
+
   constructor(private authentication : AuthenticationService, 
     private sessionStorage : SessionStorageService,
     private router: Router
@@ -29,7 +30,7 @@ export class LoginComponent implements OnInit{
     this.authentication.login(userDto).subscribe(
       token => {
         console.log(token);
-        this.sessionStorage.removeItem('token');
+        //this.sessionStorage.removeItem('token');
         this.sessionStorage.setItem('token', token);
         if(token.type == 'ADMIN'){
           this.router.navigate(['/admin/product']);
@@ -40,5 +41,7 @@ export class LoginComponent implements OnInit{
     );
     console.log(userDto);
   }
+
+
 
 }

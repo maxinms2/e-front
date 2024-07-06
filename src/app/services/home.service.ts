@@ -2,13 +2,13 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { Product } from '../common/product';
+import { BACKEND_URL } from '../config/config';
 
 @Injectable({
   providedIn: 'root'
 })
 export class HomeService {
-
-  private apiUrl : string = "http://localhost:8085/api/v1/home";
+  private apiUrl : string = BACKEND_URL+'/api/v1/home';
 
   constructor(private httpClient:HttpClient) { }
 
@@ -17,6 +17,8 @@ export class HomeService {
   }
 
   getProductById(id:number):Observable<Product>{
+    console.log('url---------------------'+this.apiUrl);
+    
     return this.httpClient.get<Product>(this.apiUrl+"/"+id);
   }
 }

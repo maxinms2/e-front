@@ -4,13 +4,13 @@ import { User } from '../common/user';
 import { Observable } from 'rxjs';
 import { Userdto } from '../common/userdto';
 import { Jwtclient } from '../common/jwtclient';
+import { BACKEND_URL } from '../config/config';
 
 @Injectable({
   providedIn: 'root'
 })
 export class AuthenticationService {
-
-  private apiUrl : string = 'http://localhost:8085/api/v1/security';
+  private apiUrl : string = BACKEND_URL+'/api/v1/security';
 
   constructor(private httpClient : HttpClient) { }
 
@@ -23,4 +23,5 @@ export class AuthenticationService {
     return this.httpClient.post<Jwtclient>(this.apiUrl+"/login", userDto);
 
   }
+
 }

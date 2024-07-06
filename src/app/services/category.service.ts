@@ -1,15 +1,16 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
 import { Category } from '../common/category';
+import { Observable } from 'rxjs';
 import { HeaderService } from './header.service';
+import { BACKEND_URL } from '../config/config';
 
 @Injectable({
   providedIn: 'root'
 })
 export class CategoryService {
 
-  private apiUrl: string = 'http://localhost:8085/api/v1/admin/categories';
+  private apiUrl: string = BACKEND_URL+'/api/v1/admin/categories';
 
   constructor(private http:HttpClient, private headerService : HeaderService) { }
 

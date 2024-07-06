@@ -3,13 +3,13 @@ import { Injectable } from '@angular/core';
 import { Order } from '../common/order';
 import { Observable } from 'rxjs';
 import { HeaderService } from './header.service';
+import { BACKEND_URL } from '../config/config';
 
 @Injectable({
   providedIn: 'root'
 })
 export class OrderService {
-
-  private apiUrl : string = "http://localhost:8085/api/v1/orders";
+  private apiUrl : string = BACKEND_URL+"/api/v1/orders";
   private update: string ='update/state/order';
 
   constructor(private httpClient:HttpClient, private headerService : HeaderService) { }

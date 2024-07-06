@@ -2,7 +2,6 @@ import { OrderProduct } from "./order-product";
 import { OrderState } from "./order-state";
 
 export class Order {
-
     constructor(
         public id:number|null,
         public dateCreated:Date,

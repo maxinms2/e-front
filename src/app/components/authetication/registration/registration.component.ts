@@ -10,34 +10,34 @@ import { AuthenticationService } from 'src/app/services/authentication.service';
   templateUrl: './registration.component.html',
   styleUrls: ['./registration.component.css']
 })
-export class RegistrationComponent implements OnInit {
-
-  username: string = '';
-  name: string = '';
-  surname: string = '';
-  email: string = '';
-  address: string = '';
-  cellphone: string = '';
-  password: string = '';
-  userType: string = '';
+export class RegistrationComponent  implements OnInit{
+  
+  username : string = '';
+  name : string = '';
+  surname : string = '';
+  email : string = '';
+  address : string = '';
+  cellphone : string = '';
+  password : string = '';
+  userType : string = '';
 
   ngOnInit(): void {
   }
 
-  constructor(private authetication: AuthenticationService, private router: Router,
-    private toastr: ToastrService
-  ) { }
+  constructor(private authetication : AuthenticationService, private router : Router,
+    private toastr:ToastrService
+    ){}
 
-  register() {
+  register(){
     this.username = this.email;
     this.userType = UserType.USER
-    let user = new User(0, this.username, this.name, this.surname, this.email, this.address, this.cellphone, this.password, this.userType);
+    let user = new User (0, this.username, this.name, this.surname, this.email, this.address, this.cellphone, this.password, this.userType);
     this.authetication.register(user).subscribe(
       res => {
-        this.toastr.success('Usuario registrado', 'Usuario', { positionClass: 'toast-top-center' });
-        console.log(res)
-      }
+        this.toastr.success('Usuario registrado', 'Usuario');
+      console.log(res)}
     );
+
 
     console.log(user);
     this.router.navigate(['user/login']);

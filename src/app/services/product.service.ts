@@ -1,9 +1,10 @@
 import { Injectable } from '@angular/core';
-import {HttpClient} from '@angular/common/http';
+import {HttpClient, HttpHeaders} from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { Product } from '../common/product';
 import { HeaderService } from './header.service';
-
+import { SessionStorageService } from './session-storage.service';
+import { BACKEND_URL } from '../config/config';
 
 @Injectable({
   providedIn: 'root'
@@ -11,7 +12,7 @@ import { HeaderService } from './header.service';
 export class ProductService {
   constructor(private httpClient:HttpClient, private headerService : HeaderService ){}
   
-  private apiUrl : string = "http://localhost:8085/api/v1/admin/products";
+  private apiUrl : string = BACKEND_URL+"/api/v1/admin/products";
   
 
   getProducts():Observable<Product[]>{

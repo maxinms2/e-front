@@ -3,10 +3,10 @@ import { BrowserModule } from '@angular/platform-browser';
 
 import { AppComponent } from './app.component';
 import { HomeComponent } from './components/home/home.component';
-import { HttpClientModule } from '@angular/common/http';
+import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
 import { ProductListComponent } from './components/product-list/product-list.component';
 import { HeaderAdminComponent } from './components/header-admin/header-admin.component';
-import { Routes,RouterModule } from '@angular/router';
+import { Routes, RouterModule } from '@angular/router';
 import { ProductAddComponent } from './components/product-add/product-add.component';
 import { FormsModule } from '@angular/forms';
 import { ToastrModule } from 'ngx-toastr';
@@ -14,20 +14,20 @@ import { CategoryListComponent } from './components/category/category-list/categ
 import { CategoryAddComponent } from './components/category/category-add/category-add.component';
 import { DetailProductComponent } from './components/cart/detail-product/detail-product.component';
 import { HeaderUserComponent } from './components/header-user/header-user.component';
-import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
+import {BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { SumaryOrderComponent } from './components/orders/sumary-order/sumary-order.component';
 import { PaymentSuccessComponent } from './components/payment-success/payment-success.component';
-import { RegistrationComponent } from './components/authentication/registration/registration.component';
-import { LoginComponent } from './components/authentication/login/login.component';
-import { LogoutComponent } from './components/logout/logout.component'
+import { RegistrationComponent } from './components/authetication/registration/registration.component';
+import { LoginComponent } from './components/authetication/login/login.component';
+import { LogoutComponent } from './components/logout/logout.component';
 import { authGuard } from './guards/auth.guard';
+
 
 const routes : Routes = [
   {path:'', component:HomeComponent},
   {path:'admin/product', component: ProductListComponent},
   {path:'admin/product/addproduct', component: ProductAddComponent},
   {path: 'admin/product/update/:id', component:ProductAddComponent },
-
   {path: 'admin/category', component:CategoryListComponent },
   {path: 'admin/category/add', component:CategoryAddComponent},
   {path: 'admin/category/update/:id', component:CategoryAddComponent},
@@ -37,6 +37,7 @@ const routes : Routes = [
   {path: 'user/register', component: RegistrationComponent},
   {path: 'user/login', component: LoginComponent},
   {path: 'logout', component: LogoutComponent}
+
 ];
 
 @NgModule({
@@ -62,9 +63,14 @@ const routes : Routes = [
     FormsModule,
     BrowserAnimationsModule,
     RouterModule.forRoot(routes),
-    ToastrModule.forRoot(),
+    ToastrModule.forRoot({
+      positionClass: 'toast-center-center', // Clase personalizada para centrar el toastr
+    }),
+    
   ],
-  providers: [],
+  providers: [
+ 
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

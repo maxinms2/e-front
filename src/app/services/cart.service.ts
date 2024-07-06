@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import { ItemCart } from '../common/item-cart';
+import { SessionStorageService } from './session-storage.service';
 
 @Injectable({
   providedIn: 'root'
@@ -10,7 +11,11 @@ export class CartService {
 
   itemList : ItemCart [] = [];
 
-  constructor() { }
+
+
+  constructor() {
+
+   }
 
   addItemCart(itemCart : ItemCart){
     this.items.set(itemCart.productId, itemCart);
@@ -27,7 +32,7 @@ export class CartService {
   }
   
   totalCart(){
-   let totalCart:number=0;
+    let totalCart:number=0;
     this.items.forEach(
       (item, clave)=>{
         totalCart+= item.getTotalPriceItem();
@@ -47,5 +52,6 @@ export class CartService {
     );
     return this.itemList;
   }
+
 
 }

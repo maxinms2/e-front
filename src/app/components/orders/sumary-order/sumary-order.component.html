@@ -6,12 +6,12 @@
 
   <!-- Page Heading/Breadcrumbs -->
   <h1 class="mt-4 mb-3">
-    Spring eCommerce <small>Resumen de la orden</small>
+    Market Fit <small>Resumen de la orden</small>
   </h1>
 
   <ol class="breadcrumb">
     <li class="breadcrumb-item"><a [routerLink]="['/']">Home</a></li>
-    <li class="breadcrumb-item active">Orden</li>
+    <!--li class="breadcrumb-item active">Orden</li-->
   </ol>
 
   <!-- Blog Post -->
@@ -41,12 +41,12 @@
                   </tr>
                 </thead>
                 <tbody>
-                    <tr *ngFor="let item of items">
-                        <td>{{item.productName}}</td>
-                        <td>{{item.price}}</td>
-                        <td>{{item.quantity}}</td>
-                        <td>{{item.getTotalPriceItem()}}</td>
-                        <td><button class="btn btn-danger" (click)="deleteItemCart(item.productId)" >Quitar</button> </td>
+                  <tr *ngFor="let item of items">
+                    <td>{{item.productName}}</td>
+                    <td>{{item.price}}</td>
+                    <td>{{item.quantity}}</td>
+                    <td>{{item.getTotalPriceItem()}}</td>
+                    <td><button class="btn btn-danger" (click)="deleteItemCart(item.productId)" >Quitar</button> </td>
                   </tr>
                 </tbody>
               </table>
@@ -56,10 +56,9 @@
 
         <div class="col-lg-3">
           <h2 class="card-title">Resumen Orden</h2>
-
           <ul class="list-group">
             <li class="list-group-item">
-                <h5> Total: {{totalCart}}</h5>
+              <h5> Total: {{totalCart}}</h5>
             </li>
             <a class="btn btn-dark" (click)="generateOrder()">Pagar con Paypal</a>
           </ul>

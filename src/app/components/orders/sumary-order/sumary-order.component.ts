@@ -4,7 +4,7 @@ import { ItemCart } from 'src/app/common/item-cart';
 import { Order } from 'src/app/common/order';
 import { OrderProduct } from 'src/app/common/order-product';
 import { OrderState } from 'src/app/common/order-state';
-import { CartService } from 'src/app/services/cart.service';
+//import { CartService } from 'src/app/services/cart.service';
 import { OrderService } from 'src/app/services/order.service';
 import { PaymentService } from 'src/app/services/payment.service';
 import { SessionStorageService } from 'src/app/services/session-storage.service';
@@ -26,19 +26,35 @@ export class SumaryOrderComponent implements OnInit {
   orderProducts: OrderProduct[] = [];
   userId: number = 0;
 
-  constructor(private cartService: CartService
-    , private userService: UserService,
+  constructor(/*private cartService:CartService, */
+    private userService: UserService,
     private orderService: OrderService,
     private paymentService: PaymentService,
-    private sessionStorage:SessionStorageService
+    private sessionStorage: SessionStorageService
   ) { }
 
+
   ngOnInit(): void {
-    this.actualizaItems();
+    console.log('ngOnInit');
+    //this.items = this.cartService.convertToListFromMap();
+    let itemsStorage = [];
+    const tokensString = sessionStorage.getItem('items');
+    if (tokensString) {
+      console.log("tokensString====" + tokensString);
+      itemsStorage = JSON.parse(tokensString);
+    }
+
+    itemsStorage.forEach(
+      (item: { productId: number; productName: string; quantity: number; price: number; }) => {
+        let itemCart = new ItemCart(item.productId, item.productName, item.quantity, item.price);
+        this.items.push(itemCart);
+      }
+    );
+    this.totalCart = this.getTotalCart();
     this.userId = this.sessionStorage.getItem('token').id;
     this.getUserById(this.userId);
     setTimeout(
-      ()=>{
+      () => {
         this.sessionStorage.removeItem('token');
       }, 600000);
   }
@@ -56,7 +72,7 @@ export class SumaryOrderComponent implements OnInit {
     this.orderService.createOrder(order).subscribe(
       data => {
         console.log('Order creada con id: ' + data.id);
-        this.sessionStorage.setItem('order',data);
+        this.sessionStorage.setItem('order', data);
       }
     );
 
@@ -73,16 +89,18 @@ export class SumaryOrderComponent implements OnInit {
         window.location.href = urlPayment;
       }
     );
+
+
+
   }
 
   deleteItemCart(productId: number) {
-    this.cartService.deleteItemCart(productId);
-    this.actualizaItems();
-  }
-
-  private actualizaItems() {
+    this.items = this.items.filter(item => item.productId !== productId);
+    sessionStorage.setItem('items', JSON.stringify(this.items));
+    this.totalCart = this.getTotalCart();
+    /*this.cartService.deleteItemCart(productId);
     this.items = this.cartService.convertToListFromMap();
-    this.totalCart = this.cartService.totalCart();
+    this.totalCart = this.cartService.totalCart();*/
   }
 
   getUserById(id: number) {
@@ -94,6 +112,17 @@ export class SumaryOrderComponent implements OnInit {
         this.address = data.address;
       }
     );
+  }
+
+  getTotalCart(){
+    let totalCart:number=0;
+    this.items.forEach(
+      (item, clave)=>{
+        totalCart+= item.getTotalPriceItem();
+      }
+
+    );
+    return totalCart;
   }
 
 }

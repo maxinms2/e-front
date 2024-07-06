@@ -8,23 +8,24 @@ import { SessionStorageService } from './session-storage.service';
 export class HeaderService {
 
   private token = '';
-  public headers: HttpHeaders = new HttpHeaders;
-  constructor(private sessionStorage: SessionStorageService) {
+  public headers : HttpHeaders = new HttpHeaders;
 
-    if (this.sessionStorage.getItem('token') != null) {
-      console.log('HeaderService: ' + this.sessionStorage.getItem('token'));
-      this.token = this.sessionStorage.getItem('token').token;
-      this.headers = new HttpHeaders(
-        {
-          ///'Content-Type' : 'application/json',
-          'Authorization': `${this.token}`
+  constructor(private sessionStorage : SessionStorageService) { 
 
-        }
+    if( this.sessionStorage.getItem('token') != null){
+      console.log('HeaderService: '+this.sessionStorage.getItem('token'));
+    this.token = this.sessionStorage.getItem('token').token;
+    this.headers = new HttpHeaders(
+      {
+        ///'Content-Type' : 'application/json',
+        'Authorization' : `${this.token}`
 
-      );
+      }
+
+    );
 
     }
-
+    
 
   }
 }

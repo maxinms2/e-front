@@ -12,7 +12,6 @@ import { SessionStorageService } from 'src/app/services/session-storage.service'
   styleUrls: ['./product-add.component.css']
 })
 export class ProductAddComponent implements OnInit{
-
   id : number = 0;
   code : string = '001';
   name : string = '';
@@ -20,25 +19,28 @@ export class ProductAddComponent implements OnInit{
   price : number = 0;
   urlImage : string = '';
   userId : string = '0';
-  categoryId : string = '5';
+  categoryId : string = '3';
   user : number = 0;
 
   selectFile! : File;
 
   categories : Category [] = [];
 
-  constructor(private productService : ProductService,private router:Router,
-    private activatedRoute:ActivatedRoute,private toastr:ToastrService,
-    private categoryService:CategoryService,private sessionStorage : SessionStorageService){
-      this.getProductById();
+  constructor(private productService : ProductService, 
+    private router:Router, 
+    private activatedRoute:ActivatedRoute, 
+    private toastr: ToastrService, 
+    private categoryService:CategoryService,
+    private sessionStorage : SessionStorageService){
+
   }
+
   ngOnInit(): void {
     this.getCategories();
     this.getProductById();
     this.user = this.sessionStorage.getItem('token').id;
     this.userId = this.user.toString();
   }
-
   addProduct(){
     const formData = new FormData();
     formData.append('id',this.id.toString());
@@ -50,21 +52,22 @@ export class ProductAddComponent implements OnInit{
     formData.append('urlImage', this.urlImage);
     formData.append('userId', this.userId);
     formData.append('categoryId', this.categoryId);
+    //console.log(formData.get('id'));
     console.log(formData);
 
     this.productService.createProduct(formData).subscribe(
       data => {
-        console.log(data);   
+        console.log(data);
         if(this.id==0){
           this.toastr.success('Producto registrado correctamante', 'Productos');
         }else{
           this.toastr.success('Producto actualizado correctamante', 'Productos');
-        } 
-        this.router.navigate(['admin/product']); 
+        }
+        
+        this.router.navigate(['admin/product']);      
       }
-    );
+    );  
 
-    
   }
 
   getProductById(){

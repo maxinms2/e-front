@@ -8,12 +8,12 @@ import Swal from 'sweetalert2';
   templateUrl: './product-list.component.html',
   styleUrls: ['./product-list.component.css']
 })
-export class ProductListComponent implements OnInit{
+export class ProductListComponent implements OnInit {
 
   products : Product[] = [];
 
   constructor(private productService:ProductService ){}
-  
+
   ngOnInit(): void {
     this.listProducts();
   }
@@ -54,6 +54,5 @@ export class ProductListComponent implements OnInit{
    
 
   }
-
 
 }
