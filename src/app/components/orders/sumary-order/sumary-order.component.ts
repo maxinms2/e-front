@@ -6,7 +6,7 @@ import { Jwtclient } from 'src/app/common/jwtclient';
 import { Order } from 'src/app/common/order';
 import { OrderProduct } from 'src/app/common/order-product';
 import { OrderState } from 'src/app/common/order-state';
-//import { CartService } from 'src/app/services/cart.service';
+import { AlertsService } from 'src/app/services/alerts.service';
 import { OrderService } from 'src/app/services/order.service';
 import { PaymentService } from 'src/app/services/payment.service';
 import { SessionStorageService } from 'src/app/services/session-storage.service';
@@ -29,17 +29,17 @@ export class SumaryOrderComponent implements OnInit {
   userId: number = 0;
   token: Jwtclient | null = null;
 
-  constructor(/*private cartService:CartService, */
+  constructor(
     private userService: UserService,
     private orderService: OrderService,
     private router: Router,
-    private sessionStorage: SessionStorageService
+    private sessionStorage: SessionStorageService,
+    private alerts:AlertsService
   ) { }
 
 
   ngOnInit(): void {
     console.log('ngOnInit');
-    //this.items = this.cartService.convertToListFromMap();
     let itemsStorage = [];
     const itemsString = sessionStorage.getItem('items');
     if (itemsString) {
@@ -65,10 +65,13 @@ export class SumaryOrderComponent implements OnInit {
     this.totalCart = this.getTotalCart();
     this.userId = this.sessionStorage.getItem('token').id;
     this.getUserById(this.userId);
-    setTimeout(
+    /*setTimeout(
       () => {
         this.sessionStorage.removeItem('token');
-      }, 900000);
+        this.alerts.warning("Sesión finalizada");
+        this.router.navigate(['/user/login']);
+      //}, 900000);
+      }, 60000);*/
   }
 
   generateOrder() {
@@ -89,8 +92,15 @@ export class SumaryOrderComponent implements OnInit {
         this.router.navigate(['/payment/success']);
       },
       (error) => {
-        alert("Error de sistema o sesión finalizada, vuelva a intenatlo mas tarde.");
-        this.router.navigate(['/user/login']);
+        if (error.status === 400) {
+          this.alerts.warning(error.error);
+          this.router.navigate(['/']);
+        } else {
+          this.alerts.error("Error de sistema o sesión finalizada.");
+          this.sessionStorage.removeItem('token');
+          location.reload();
+          //this.router.navigate(['/user/login']);
+        }
       }
     );
 
@@ -129,11 +139,11 @@ export class SumaryOrderComponent implements OnInit {
     );
   }
 
-  getTotalCart(){
-    let totalCart:number=0;
+  getTotalCart() {
+    let totalCart: number = 0;
     this.items.forEach(
-      (item, clave)=>{
-        totalCart+= item.getTotalPriceItem();
+      (item, clave) => {
+        totalCart += item.getTotalPriceItem();
       }
 
     );
