@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 import { DataPayment } from 'src/app/common/data-payment';
 import { ItemCart } from 'src/app/common/item-cart';
+import { Jwtclient } from 'src/app/common/jwtclient';
 import { Order } from 'src/app/common/order';
 import { OrderProduct } from 'src/app/common/order-product';
 import { OrderState } from 'src/app/common/order-state';
@@ -25,11 +27,12 @@ export class SumaryOrderComponent implements OnInit {
   address: string = '';
   orderProducts: OrderProduct[] = [];
   userId: number = 0;
+  token: Jwtclient | null = null;
 
   constructor(/*private cartService:CartService, */
     private userService: UserService,
     private orderService: OrderService,
-    private paymentService: PaymentService,
+    private router: Router,
     private sessionStorage: SessionStorageService
   ) { }
 
@@ -38,10 +41,19 @@ export class SumaryOrderComponent implements OnInit {
     console.log('ngOnInit');
     //this.items = this.cartService.convertToListFromMap();
     let itemsStorage = [];
-    const tokensString = sessionStorage.getItem('items');
-    if (tokensString) {
-      console.log("tokensString====" + tokensString);
-      itemsStorage = JSON.parse(tokensString);
+    const itemsString = sessionStorage.getItem('items');
+    if (itemsString) {
+      console.log("itemsString====" + itemsString);
+      itemsStorage = JSON.parse(itemsString);
+    }
+
+    const tokenString = sessionStorage.getItem('token');
+    if (tokenString) {
+      try {
+        this.token = JSON.parse(tokenString);
+      } catch (error) {
+        console.error('Error al parsear el token:', error);
+      }
     }
 
     itemsStorage.forEach(
@@ -56,7 +68,7 @@ export class SumaryOrderComponent implements OnInit {
     setTimeout(
       () => {
         this.sessionStorage.removeItem('token');
-      }, 600000);
+      }, 900000);
   }
 
   generateOrder() {
@@ -67,17 +79,23 @@ export class SumaryOrderComponent implements OnInit {
       }
     );
 
-    let order = new Order(null, new Date(), this.orderProducts, this.userId, OrderState.CANCELLED);
+    let order = new Order(null, new Date(), this.orderProducts, this.userId, OrderState.PROGRESS);
     console.log('Order: ' + order.orderState);
     this.orderService.createOrder(order).subscribe(
       data => {
         console.log('Order creada con id: ' + data.id);
         this.sessionStorage.setItem('order', data);
+        sessionStorage.removeItem("items");
+        this.router.navigate(['/payment/success']);
+      },
+      (error) => {
+        alert("Error de sistema o sesión finalizada, vuelva a intenatlo mas tarde.");
+        this.router.navigate(['/user/login']);
       }
     );
 
     //redireccion y pago con paypal
-    let urlPayment;
+    /*let urlPayment;
     let dataPayment = new DataPayment('PAYPAL', this.totalCart.toString(), 'USD', 'COMPRA');
 
     console.log('Data Payment:', dataPayment);
@@ -88,7 +106,7 @@ export class SumaryOrderComponent implements OnInit {
         console.log('Respuesta exitosa...');
         window.location.href = urlPayment;
       }
-    );
+    );*/
 
 
 
@@ -98,9 +116,6 @@ export class SumaryOrderComponent implements OnInit {
     this.items = this.items.filter(item => item.productId !== productId);
     sessionStorage.setItem('items', JSON.stringify(this.items));
     this.totalCart = this.getTotalCart();
-    /*this.cartService.deleteItemCart(productId);
-    this.items = this.cartService.convertToListFromMap();
-    this.totalCart = this.cartService.totalCart();*/
   }
 
   getUserById(id: number) {

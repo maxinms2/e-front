@@ -21,6 +21,9 @@ import { RegistrationComponent } from './components/authetication/registration/r
 import { LoginComponent } from './components/authetication/login/login.component';
 import { LogoutComponent } from './components/logout/logout.component';
 import { authGuard } from './guards/auth.guard';
+import { CustomCurrencyPipe } from './pipes/custom-currency.pipe';
+import { SweetAlert2Module } from '@sweetalert2/ngx-sweetalert2';
+
 
 
 const routes : Routes = [
@@ -55,7 +58,8 @@ const routes : Routes = [
     PaymentSuccessComponent,
     RegistrationComponent,
     LoginComponent,
-    LogoutComponent
+    LogoutComponent,
+    CustomCurrencyPipe
   ],
   imports: [
     BrowserModule,

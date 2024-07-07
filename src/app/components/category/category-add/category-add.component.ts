@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
 import { Category } from 'src/app/common/category';
+import { AlertsService } from 'src/app/services/alerts.service';
 import { CategoryService } from 'src/app/services/category.service';
 
 @Component({
@@ -13,7 +14,8 @@ export class CategoryAddComponent implements OnInit{
   id : number = 0;
   name : string = '';
 
-  constructor(private categoryService:CategoryService, private toastr:ToastrService, private router:Router, private activatedRoute: ActivatedRoute){}
+  constructor(private categoryService:CategoryService, private toastr:ToastrService, 
+    private router:Router, private activatedRoute: ActivatedRoute,private alerts:AlertsService){}
 
   ngOnInit(): void {
     this.getCategoryById();
@@ -24,7 +26,7 @@ export class CategoryAddComponent implements OnInit{
     let category = new Category(this.id,this.name);    
     this.categoryService.createCategory(category).subscribe(
       res=>{
-        this.toastr.success('Categoria registrada correctamente','Categorias');
+        this.alerts.success('Categoria registrada correctamente');
         this.router.navigate(['admin/category']);
       } 
     );

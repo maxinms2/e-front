@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
 import { Category } from 'src/app/common/category';
+import { AlertsService } from 'src/app/services/alerts.service';
 import { CategoryService } from 'src/app/services/category.service';
 import { ProductService } from 'src/app/services/product.service';
 import { SessionStorageService } from 'src/app/services/session-storage.service';
@@ -31,7 +32,8 @@ export class ProductAddComponent implements OnInit{
     private activatedRoute:ActivatedRoute, 
     private toastr: ToastrService, 
     private categoryService:CategoryService,
-    private sessionStorage : SessionStorageService){
+    private sessionStorage : SessionStorageService,
+  private alerts:AlertsService){
 
   }
 
@@ -59,9 +61,9 @@ export class ProductAddComponent implements OnInit{
       data => {
         console.log(data);
         if(this.id==0){
-          this.toastr.success('Producto registrado correctamante', 'Productos');
+          this.alerts.success('Producto registrado correctamante');
         }else{
-          this.toastr.success('Producto actualizado correctamante', 'Productos');
+          this.alerts.success('Producto actualizado correctamante');
         }
         
         this.router.navigate(['admin/product']);      

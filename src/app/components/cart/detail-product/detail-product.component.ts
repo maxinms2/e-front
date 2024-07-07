@@ -3,6 +3,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
 import { ItemCart } from 'src/app/common/item-cart';
 import { Jwtclient } from 'src/app/common/jwtclient';
+import { AlertsService } from 'src/app/services/alerts.service';
 import { CartService } from 'src/app/services/cart.service';
 import { HomeService } from 'src/app/services/home.service';
 import { ProductService } from 'src/app/services/product.service';
@@ -45,7 +46,7 @@ export class DetailProductComponent implements OnInit {
 
   constructor(private homeService:HomeService, private activatedRoute: ActivatedRoute, 
     private cartService:CartService, private toastr:ToastrService,
-    private sessionStorage:SessionStorageService,private router: Router){
+    private sessionStorage:SessionStorageService,private router: Router,private alerts:AlertsService){
 
   }
 
@@ -70,6 +71,11 @@ export class DetailProductComponent implements OnInit {
   }
 
   addCart(id : number){
+
+    if(this.quantity===0){
+      this.alerts.warning('La cantidad del producto debe ser nayor que 0');
+      return;
+    }
     console.log('id product: ', id);
     console.log('name product: ', this.name);
     console.log('price product: ', this.price);
@@ -78,13 +84,12 @@ export class DetailProductComponent implements OnInit {
     const itemIndex = this.items.findIndex(i => i.productId === id);
     if (itemIndex !== -1) {
       this.items[itemIndex].quantity+= this.quantity;
-      this.toastr.success('Cantidad del producto modificada el carrito de compras'
-         + this.quantity + '--'+this.items[itemIndex].quantity, 'Carrito compras');
+      this.alerts.success('Cantidad del producto modificada el carrito de compras');
     }else{
       let item = new ItemCart(id, this.name, this.quantity, this.price);  
       this.items.push(item);
       console.log("itemsss="+this.items.length);
-      this.toastr.success('Producto añadido al carrito de compras', 'Carrito compras');
+      this.alerts.success('Producto añadido al carrito de compras');
     }  
     sessionStorage.setItem('items', JSON.stringify(this.items)); 
     this.router.navigate(['/']);

@@ -43,9 +43,9 @@
                 <tbody>
                   <tr *ngFor="let item of items">
                     <td>{{item.productName}}</td>
-                    <td>{{item.price}}</td>
+                    <td>{{item.price | customCurrency:'MXN'}}</td>
                     <td>{{item.quantity}}</td>
-                    <td>{{item.getTotalPriceItem()}}</td>
+                    <td>{{item.getTotalPriceItem() | customCurrency:'MXN'}}</td>
                     <td><button class="btn btn-danger" (click)="deleteItemCart(item.productId)" >Quitar</button> </td>
                   </tr>
                 </tbody>
@@ -58,11 +58,12 @@
           <h2 class="card-title">Resumen Orden</h2>
           <ul class="list-group">
             <li class="list-group-item">
-              <h5> Total: {{totalCart}}</h5>
+              <h5> Total: {{totalCart | customCurrency:'MXN'}}</h5>
             </li>
-            <a class="btn btn-dark" (click)="generateOrder()">Pagar con Paypal</a>
+            <a class="btn btn-dark"  (click)="generateOrder()">Solicitar orden</a>
           </ul>
         </div>
+        
       </div>
     </div>
   </div>
