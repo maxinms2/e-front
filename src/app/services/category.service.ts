@@ -15,19 +15,23 @@ export class CategoryService {
   constructor(private http:HttpClient, private headerService : HeaderService) { }
 
   getCategoryList():Observable<Category[]>{
-    return this.http.get<Category[]>(this.apiUrl, { headers: this.headerService.headers });
+    const headers = this.headerService.getHeader();
+    return this.http.get<Category[]>(this.apiUrl, {headers});
   }
 
   createCategory(category:Category):Observable<Category>{
-    return this.http.post<Category>(this.apiUrl,category, { headers: this.headerService.headers });
+    const headers = this.headerService.getHeader();
+    return this.http.post<Category>(this.apiUrl,category, {headers});
   }
 
   deleteCategoryById(id:number):Observable<any>{
-    return this.http.delete(`${this.apiUrl}/${id}`, { headers: this.headerService.headers });
+    const headers = this.headerService.getHeader();
+    return this.http.delete(`${this.apiUrl}/${id}`, {headers});
   }
 
   getCategoryById(id:number):Observable<Category>{
-    return this.http.get<Category>(`${this.apiUrl}/${id}`, { headers: this.headerService.headers });
+    const headers = this.headerService.getHeader();
+    return this.http.get<Category>(`${this.apiUrl}/${id}`, {headers});
 
   }
   

@@ -15,8 +15,8 @@ export class PaymentService {
   constructor(private http:HttpClient, private headerService : HeaderService) { }
 
   getUrlPaypalPayment(dataPayment:DataPayment):Observable<UrlPaypalResponse>{
-    console.log('Header:'+this.headerService.headers.get('Content-Type'))
-    return this.http.post<UrlPaypalResponse>(this.apiUrl, dataPayment, { headers: this.headerService.headers });
+    const headers = this.headerService.getHeader();
+    return this.http.post<UrlPaypalResponse>(this.apiUrl, dataPayment, {headers});
   }
 
 }

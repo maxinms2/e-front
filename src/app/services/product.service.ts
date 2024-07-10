@@ -16,19 +16,23 @@ export class ProductService {
   
 
   getProducts():Observable<Product[]>{
-    return this.httpClient.get<Product[]>(this.apiUrl, {headers: this.headerService.headers});
+    const headers = this.headerService.getHeader();
+    return this.httpClient.get<Product[]>(this.apiUrl,{headers});
   }
 
   createProduct(formData:any):Observable<any>{
-    return this.httpClient.post<Product>(this.apiUrl,formData, {headers: this.headerService.headers});
+    const headers = this.headerService.getHeader();
+    return this.httpClient.post<Product>(this.apiUrl,formData, {headers});
   }
 
   deleteProductById(id:number):Observable<any>{
-    return this.httpClient.delete(this.apiUrl+"/"+id , {headers: this.headerService.headers});
+    const headers = this.headerService.getHeader();
+    return this.httpClient.delete(this.apiUrl+"/"+id , {headers});
   }
 
   getProductById(id:number):Observable<Product>{
-    return this.httpClient.get<Product>(this.apiUrl+"/"+id, {headers: this.headerService.headers});
+    const headers = this.headerService.getHeader();
+    return this.httpClient.get<Product>(this.apiUrl+"/"+id, {headers});
   }
   
 }

@@ -7,7 +7,10 @@
     <h1 class="display-3">Bienvenido a Market Fit</h1>
     <p class="lead">Tu tienda de productos en Línea</p>
   </header>
-
+  <div class="spinner-container" *ngIf="isLoading">
+    <div class="spinner"></div>
+  </div>
+  
   <div class="main-content">
     <div class="section-content section-content-p30">
       <div class="container-fluid">
@@ -34,7 +37,7 @@
 <!-- Footer -->
 <footer class="py-5 bg-dark">
   <div class="container">
-    <p class="m-0 text-center text-white">Copyright &copy; Spring eCommerce 2024</p>
+    <p class="m-0 text-center text-white"> Market Fit 2024</p>
   </div>
   <!-- /.container -->
 </footer>

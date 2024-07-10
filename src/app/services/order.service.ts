@@ -15,18 +15,22 @@ export class OrderService {
   constructor(private httpClient:HttpClient, private headerService : HeaderService) { }
 
   createOrder(order:Order):Observable<Order>{
-    return this.httpClient.post<Order>(this.apiUrl, order, { headers: this.headerService.headers });
+    const headers = this.headerService.getHeader();
+    return this.httpClient.post<Order>(this.apiUrl, order, {headers});
   }
 
   updateOrder(formData:any):Observable<any>{
-    return this.httpClient.post(`${this.apiUrl}/${this.update}`, formData, { headers: this.headerService.headers });
+    const headers = this.headerService.getHeader();
+    return this.httpClient.post(`${this.apiUrl}/${this.update}`, formData, {headers});
   }
 
   getOrderByUser(userId:number):Observable<Order[]>{
-    return this.httpClient.get<Order[]>(`${this.apiUrl}/by-user/${userId}`, { headers: this.headerService.headers });
+    const headers = this.headerService.getHeader();
+    return this.httpClient.get<Order[]>(`${this.apiUrl}/by-user/${userId}`, {headers});
   }
 
   getOrderById(orderId:number):Observable<Order>{
-    return this.httpClient.get<Order>(`${this.apiUrl}/${orderId}`, { headers: this.headerService.headers });
+    const headers = this.headerService.getHeader();
+    return this.httpClient.get<Order>(`${this.apiUrl}/${orderId}`, {headers});
   }
 }

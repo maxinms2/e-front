@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Product } from 'src/app/common/product';
+import { AlertsService } from 'src/app/services/alerts.service';
 import { HomeService } from 'src/app/services/home.service';
 
 
@@ -10,14 +11,22 @@ import { HomeService } from 'src/app/services/home.service';
 })
 export class HomeComponent implements OnInit{
   products: Product [] = [];
-
-  constructor(private homeService:HomeService){
+  isLoading: boolean=false;
+  constructor(private homeService:HomeService,private alerts:AlertsService){
 
   }
   
   ngOnInit(): void {
+    this.isLoading=true;
     this.homeService.getProducts().subscribe(
-      data => this.products = data
+      data =>{
+        this.products = data;
+        this.isLoading=false;
+      },
+      error=>{
+        this.isLoading=false;
+        this.alerts.warning("Error de comunicación");
+      }
     );
   }
 

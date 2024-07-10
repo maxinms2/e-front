@@ -28,6 +28,7 @@ export class SumaryOrderComponent implements OnInit {
   orderProducts: OrderProduct[] = [];
   userId: number = 0;
   token: Jwtclient | null = null;
+  isLoading: boolean=false;
 
   constructor(
     private userService: UserService,
@@ -39,6 +40,7 @@ export class SumaryOrderComponent implements OnInit {
 
 
   ngOnInit(): void {
+    this.isLoading=true;
     console.log('ngOnInit');
     let itemsStorage = [];
     const itemsString = sessionStorage.getItem('items');
@@ -65,6 +67,7 @@ export class SumaryOrderComponent implements OnInit {
     this.totalCart = this.getTotalCart();
     this.userId = this.sessionStorage.getItem('token').id;
     this.getUserById(this.userId);
+    this.isLoading=false;
     /*setTimeout(
       () => {
         this.sessionStorage.removeItem('token');
@@ -75,6 +78,7 @@ export class SumaryOrderComponent implements OnInit {
   }
 
   generateOrder() {
+    this.isLoading=true;
     this.items.forEach(
       item => {
         let orderProduct = new OrderProduct(null, item.productId, item.quantity, item.price);
@@ -89,17 +93,22 @@ export class SumaryOrderComponent implements OnInit {
         console.log('Order creada con id: ' + data.id);
         this.sessionStorage.setItem('order', data);
         sessionStorage.removeItem("items");
-        this.router.navigate(['/payment/success']);
+        this.isLoading=false;
+        this.router.navigate(['/payment/success']); 
+               
       },
       (error) => {
         if (error.status === 400) {
-          this.alerts.warning(error.error);
+          this.isLoading=false;
           this.router.navigate(['/']);
+          this.alerts.warning(error.error);
         } else {
-          this.alerts.error("Error de sistema o sesión finalizada.");
           this.sessionStorage.removeItem('token');
-          location.reload();
-          //this.router.navigate(['/user/login']);
+          this.isLoading=false;
+          //location.reload();
+          console.error(error.error);
+          this.alerts.error("Error de sistema o sesión finalizada. ");
+          this.router.navigate(['/']);
         }
       }
     );
