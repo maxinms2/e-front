@@ -7,6 +7,7 @@ import { Order } from 'src/app/common/order';
 import { OrderProduct } from 'src/app/common/order-product';
 import { OrderState } from 'src/app/common/order-state';
 import { AlertsService } from 'src/app/services/alerts.service';
+import { ErrorsService } from 'src/app/services/errors.service';
 import { OrderService } from 'src/app/services/order.service';
 import { PaymentService } from 'src/app/services/payment.service';
 import { SessionStorageService } from 'src/app/services/session-storage.service';
@@ -35,7 +36,8 @@ export class SumaryOrderComponent implements OnInit {
     private orderService: OrderService,
     private router: Router,
     private sessionStorage: SessionStorageService,
-    private alerts:AlertsService
+    private alerts:AlertsService,
+    private errorsService:ErrorsService
   ) { }
 
 
@@ -98,7 +100,7 @@ export class SumaryOrderComponent implements OnInit {
                
       },
       (error) => {
-        if (error.status === 400) {
+        /*if (error.status === 400) {
           this.isLoading=false;
           this.router.navigate(['/']);
           this.alerts.warning(error.error);
@@ -109,7 +111,8 @@ export class SumaryOrderComponent implements OnInit {
           console.error(error.error);
           this.alerts.error("Error de sistema o sesión finalizada. ");
           this.router.navigate(['/']);
-        }
+        }*/
+          this.errorsService.redireccionaError(error.error);
       }
     );
 

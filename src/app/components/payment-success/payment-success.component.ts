@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { OrderState } from 'src/app/common/order-state';
+import { ErrorsService } from 'src/app/services/errors.service';
 import { OrderService } from 'src/app/services/order.service';
 import { SessionStorageService } from 'src/app/services/session-storage.service';
 
@@ -12,7 +13,8 @@ export class PaymentSuccessComponent implements OnInit {
 
   constructor(
     private orderService:OrderService,
-    private sessionStorage:SessionStorageService
+    private sessionStorage:SessionStorageService,
+    private errorsService:ErrorsService
   ){
 
   }
@@ -33,11 +35,9 @@ export class PaymentSuccessComponent implements OnInit {
         console.log('LogoutComponent: '+ this.sessionStorage.getItem('token'))
         //this.sessionStorage.removeItem('token');
         console.log('LogoutComponent eliminado: '+ this.sessionStorage.getItem('token'));  
-      }
+      },
+      error=>this.errorsService.redireccionaError(error.error)
     );
-
-
-
   }
 
 }

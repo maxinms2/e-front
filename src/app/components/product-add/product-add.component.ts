@@ -4,6 +4,7 @@ import { ToastrService } from 'ngx-toastr';
 import { Category } from 'src/app/common/category';
 import { AlertsService } from 'src/app/services/alerts.service';
 import { CategoryService } from 'src/app/services/category.service';
+import { ErrorsService } from 'src/app/services/errors.service';
 import { ProductService } from 'src/app/services/product.service';
 import { SessionStorageService } from 'src/app/services/session-storage.service';
 
@@ -33,6 +34,7 @@ export class ProductAddComponent implements OnInit{
     private toastr: ToastrService, 
     private categoryService:CategoryService,
     private sessionStorage : SessionStorageService,
+    private errorsService:ErrorsService,
   private alerts:AlertsService){
 
   }
@@ -67,6 +69,9 @@ export class ProductAddComponent implements OnInit{
         }
         
         this.router.navigate(['admin/product']);      
+      },
+      error=>{
+        this.errorsService.redireccionaError(error.error);
       }
     );  
 
@@ -92,7 +97,8 @@ export class ProductAddComponent implements OnInit{
           );
         }
 
-      }
+      },
+      error=>this.errorsService.redireccionaError(error.error)
 
     );
   }
@@ -103,7 +109,8 @@ export class ProductAddComponent implements OnInit{
 
   getCategories(){
     return this.categoryService.getCategoryList().subscribe(
-      data => this.categories = data
+      data => this.categories = data,
+      error=>this.errorsService.redireccionaError(error.error)
     );
   }
 

@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Product } from 'src/app/common/product';
 import { AlertsService } from 'src/app/services/alerts.service';
+import { ErrorsService } from 'src/app/services/errors.service';
 import { HomeService } from 'src/app/services/home.service';
 
 
@@ -12,7 +13,9 @@ import { HomeService } from 'src/app/services/home.service';
 export class HomeComponent implements OnInit{
   products: Product [] = [];
   isLoading: boolean=false;
-  constructor(private homeService:HomeService,private alerts:AlertsService){
+  constructor(private homeService:HomeService,private alerts:AlertsService
+    ,private errorsService:ErrorsService
+  ){
 
   }
   
@@ -24,8 +27,9 @@ export class HomeComponent implements OnInit{
         this.isLoading=false;
       },
       error=>{
-        this.isLoading=false;
-        this.alerts.warning("Error de comunicación");
+        this.errorsService.redireccionaError(error.error);
+        /*this.isLoading=false;
+        this.alerts.warning("Error de comunicación");*/
       }
     );
   }

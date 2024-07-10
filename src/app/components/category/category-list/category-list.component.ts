@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { ToastrService } from 'ngx-toastr';
 import { Category } from 'src/app/common/category';
 import { CategoryService } from 'src/app/services/category.service';
+import { ErrorsService } from 'src/app/services/errors.service';
 import Swal from 'sweetalert2';
 
 @Component({
@@ -13,7 +14,9 @@ export class CategoryListComponent implements OnInit {
 
   categories: Category [] = [];
 
-  constructor(private categoryService:CategoryService, private toastr:ToastrService){}
+  constructor(private categoryService:CategoryService, private toastr:ToastrService
+    , private errorsService:ErrorsService
+  ){}
 
 
   ngOnInit(): void {
@@ -22,7 +25,8 @@ export class CategoryListComponent implements OnInit {
 
   listCategories(){
     this.categoryService.getCategoryList().subscribe(
-      data => this.categories = data
+      data => this.categories = data,
+      error=>this.errorsService.redireccionaError(error.error)
     );
   }
 
@@ -41,7 +45,8 @@ export class CategoryListComponent implements OnInit {
     }).then((result) => {
       if (result.isConfirmed) {
         this.categoryService.deleteCategoryById(id).subscribe(
-          ()=> this.listCategories()
+          ()=> this.listCategories(),
+          error=>this.errorsService.redireccionaError(error.error)
         );
         Swal.fire(
           'Categorías',

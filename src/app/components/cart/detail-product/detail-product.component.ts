@@ -5,6 +5,7 @@ import { ItemCart } from 'src/app/common/item-cart';
 import { Jwtclient } from 'src/app/common/jwtclient';
 import { AlertsService } from 'src/app/services/alerts.service';
 import { CartService } from 'src/app/services/cart.service';
+import { ErrorsService } from 'src/app/services/errors.service';
 import { HomeService } from 'src/app/services/home.service';
 import { ProductService } from 'src/app/services/product.service';
 import { SessionStorageService } from 'src/app/services/session-storage.service';
@@ -45,9 +46,9 @@ export class DetailProductComponent implements OnInit {
   }
 
   constructor(private homeService:HomeService, private activatedRoute: ActivatedRoute, 
-    private cartService:CartService, private toastr:ToastrService,
+    private cartService:CartService, private toastr:ToastrService,private errorsService:ErrorsService,
     private sessionStorage:SessionStorageService,private router: Router,private alerts:AlertsService){
-
+    
   }
 
   getProductById(){
@@ -65,7 +66,8 @@ export class DetailProductComponent implements OnInit {
             }
           );
         }
-      }
+      },
+      error=>this.errorsService.redireccionaError(error.error)
 
     );
   }

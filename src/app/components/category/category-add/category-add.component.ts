@@ -4,6 +4,7 @@ import { ToastrService } from 'ngx-toastr';
 import { Category } from 'src/app/common/category';
 import { AlertsService } from 'src/app/services/alerts.service';
 import { CategoryService } from 'src/app/services/category.service';
+import { ErrorsService } from 'src/app/services/errors.service';
 
 @Component({
   selector: 'app-category-add',
@@ -15,7 +16,8 @@ export class CategoryAddComponent implements OnInit{
   name : string = '';
 
   constructor(private categoryService:CategoryService, private toastr:ToastrService, 
-    private router:Router, private activatedRoute: ActivatedRoute,private alerts:AlertsService){}
+    private router:Router, private activatedRoute: ActivatedRoute
+    ,private alerts:AlertsService,private errorsService:ErrorsService){}
 
   ngOnInit(): void {
     this.getCategoryById();
@@ -28,7 +30,8 @@ export class CategoryAddComponent implements OnInit{
       res=>{
         this.alerts.success('Categoria registrada correctamente');
         this.router.navigate(['admin/category']);
-      } 
+      } ,
+      error=>this.errorsService.redireccionaError(error.error)
     );
   }
 
@@ -42,7 +45,8 @@ export class CategoryAddComponent implements OnInit{
             data =>{
               this.id = data.id;
               this.name = data.name;
-            }
+            },
+            error=>this.errorsService.redireccionaError(error.error)
 
           );
         }
