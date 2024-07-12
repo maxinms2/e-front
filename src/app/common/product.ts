@@ -1,3 +1,5 @@
+import { Category } from "./category";
+
 export class Product {
     constructor(
         public id:number,
@@ -8,6 +10,7 @@ export class Product {
         public urlImage:string,
         public image:File,
         public userId:string,
-        public categoryId:string
+        public categoryId:string,
+        public category:Category
     ){}
 }

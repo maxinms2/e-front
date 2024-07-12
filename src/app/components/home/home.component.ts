@@ -13,6 +13,9 @@ import { HomeService } from 'src/app/services/home.service';
 export class HomeComponent implements OnInit{
   products: Product [] = [];
   isLoading: boolean=false;
+
+  selectedModel: number=0;
+  
   constructor(private homeService:HomeService,private alerts:AlertsService
     ,private errorsService:ErrorsService
   ){

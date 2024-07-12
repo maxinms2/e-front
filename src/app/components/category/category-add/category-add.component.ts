@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
 import { Category } from 'src/app/common/category';
+import { CategoryModel } from 'src/app/common/category-model';
 import { AlertsService } from 'src/app/services/alerts.service';
 import { CategoryService } from 'src/app/services/category.service';
 import { ErrorsService } from 'src/app/services/errors.service';
@@ -14,6 +15,7 @@ import { ErrorsService } from 'src/app/services/errors.service';
 export class CategoryAddComponent implements OnInit{
   id : number = 0;
   name : string = '';
+  models:CategoryModel[]=[];
 
   constructor(private categoryService:CategoryService, private toastr:ToastrService, 
     private router:Router, private activatedRoute: ActivatedRoute
@@ -25,7 +27,7 @@ export class CategoryAddComponent implements OnInit{
 
   addCategory(){
     console.log(this.name);
-    let category = new Category(this.id,this.name);    
+    let category = new Category(this.id,this.name,this.models);    
     this.categoryService.createCategory(category).subscribe(
       res=>{
         this.alerts.success('Categoria registrada correctamente');

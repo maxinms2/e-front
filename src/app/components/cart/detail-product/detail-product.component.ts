@@ -24,6 +24,7 @@ export class DetailProductComponent implements OnInit {
   quantity : number = 0;
   token: Jwtclient | null = null;
   items : ItemCart [] = [];
+  model:number=0;
 
   ngOnInit(): void {
     const tokenString = sessionStorage.getItem('token');
@@ -54,6 +55,8 @@ export class DetailProductComponent implements OnInit {
   getProductById(){
     this.activatedRoute.params.subscribe(
       p => {
+        this.model = p['model'];
+        console.log("model=="+this.model);
         let id = p['id'];
         if(id){
           this.homeService.getProductById(id).subscribe(
@@ -66,6 +69,7 @@ export class DetailProductComponent implements OnInit {
             }
           );
         }
+        
       },
       error=>this.errorsService.redireccionaError(error.error)
 

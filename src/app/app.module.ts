@@ -34,7 +34,7 @@ const routes : Routes = [
   {path: 'admin/category', component:CategoryListComponent },
   {path: 'admin/category/add', component:CategoryAddComponent},
   {path: 'admin/category/update/:id', component:CategoryAddComponent},
-  {path: 'cart/detailproduct/:id', component:DetailProductComponent},
+  {path: 'cart/detailproduct/:id/:model', component:DetailProductComponent},
   {path: 'cart/sumary', component: SumaryOrderComponent, canActivate: [authGuard]},
   {path: 'payment/success', component: PaymentSuccessComponent},
   {path: 'user/register', component: RegistrationComponent},
