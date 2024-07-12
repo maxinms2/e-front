@@ -1,5 +1,6 @@
 export class ItemCart {
-    constructor(public productId:number, public productName:string, public quantity:number, public price:number){
+    constructor(public productId:number, public productName:string, 
+        public quantity:number, public price:number,public model:string){
 
     }
 

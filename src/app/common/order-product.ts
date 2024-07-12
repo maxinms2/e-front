@@ -3,7 +3,7 @@ export class OrderProduct {
         public id:number|null,
         public productId:number,
         public quantity:number,
-        public price:number
-        
+        public price:number,
+        public model:string
         ){}
 }

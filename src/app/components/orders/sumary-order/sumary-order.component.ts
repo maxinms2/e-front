@@ -61,8 +61,9 @@ export class SumaryOrderComponent implements OnInit {
     }
 
     itemsStorage.forEach(
-      (item: { productId: number; productName: string; quantity: number; price: number; }) => {
-        let itemCart = new ItemCart(item.productId, item.productName, item.quantity, item.price);
+      (item: { productId: number; productName: string; quantity: number; price: number;model:string }) => {
+        let itemCart = new ItemCart(item.productId, item.productName,
+           item.quantity, item.price,item.model);
         this.items.push(itemCart);
       }
     );
@@ -83,7 +84,8 @@ export class SumaryOrderComponent implements OnInit {
     this.isLoading=true;
     this.items.forEach(
       item => {
-        let orderProduct = new OrderProduct(null, item.productId, item.quantity, item.price);
+        let orderProduct = new OrderProduct(null, item.productId,
+           item.quantity, item.price,item.model);
         this.orderProducts.push(orderProduct);
       }
     );

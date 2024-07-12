@@ -20,16 +20,21 @@
             <div class="product-box">
               <img src="{{p.urlImage}}">
               <h2 class="card-text"> {{p.name}} </h2>
+              <a>Selecciona una talla</a>
               <div class="combo-box">
                 <select id="modelos" name="modelos" [(ngModel)]="selectedModel">
-                  <option *ngFor="let modelo of p.category.modelos" [value]="modelo.id">
-                    {{ modelo.description }}
+                  <option *ngFor="let modelo of p.category.modelos" 
+                  [value]="modelo.name">
+                    {{ modelo.name }}
                   </option>
                 </select>
               </div>
               <div class="price"> {{p.price | customCurrency:'MXN'}}</div>
               <div class="product-show">
-                <a [routerLink]="['/cart/detailproduct', p.id, selectedModel]" class="primary-btn">Ver producto</a>
+                
+                <ng-container *ngIf="selectedModel !== 0">
+                  <a [routerLink]="['/cart/detailproduct', p.id, selectedModel]" class="primary-btn">Ver producto</a>
+                </ng-container>
               </div>
 
             </div>

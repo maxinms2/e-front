@@ -38,6 +38,7 @@
                 <thead>
                   <tr>
                     <th scope="col">Producto</th>
+                    <th scope="col">Talla</th>
                     <th scope="col">Precio</th>
                     <th scope="col">Cantidad</th>
                     <th scope="col">Total</th>
@@ -47,6 +48,7 @@
                 <tbody>
                   <tr *ngFor="let item of items">
                     <td>{{item.productName}}</td>
+                    <td>{{item.model}}</td>
                     <td>{{item.price | customCurrency:'MXN'}}</td>
                     <td>{{item.quantity}}</td>
                     <td>{{item.getTotalPriceItem() | customCurrency:'MXN'}}</td>

@@ -24,7 +24,7 @@ export class DetailProductComponent implements OnInit {
   quantity : number = 0;
   token: Jwtclient | null = null;
   items : ItemCart [] = [];
-  model:number=0;
+  model:string='';
 
   ngOnInit(): void {
     const tokenString = sessionStorage.getItem('token');
@@ -92,7 +92,7 @@ export class DetailProductComponent implements OnInit {
       this.items[itemIndex].quantity+= this.quantity;
       this.alerts.success('Cantidad del producto modificada el carrito de compras');
     }else{
-      let item = new ItemCart(id, this.name, this.quantity, this.price);  
+      let item = new ItemCart(id, this.name, this.quantity, this.price,this.model);  
       this.items.push(item);
       console.log("itemsss="+this.items.length);
       this.alerts.success('Producto añadido al carrito de compras');

@@ -35,6 +35,7 @@ export class HomeComponent implements OnInit{
         this.alerts.warning("Error de comunicación");*/
       }
     );
+
   }
 
 
