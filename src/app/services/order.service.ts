@@ -4,12 +4,14 @@ import { Order } from '../common/order';
 import { Observable } from 'rxjs';
 import { HeaderService } from './header.service';
 import { BACKEND_URL } from '../config/config';
+import { OrderState } from '../common/order-state';
 
 @Injectable({
   providedIn: 'root'
 })
 export class OrderService {
   private apiUrl : string = BACKEND_URL+"/api/v1/orders";
+  private apiUrlAdmin : string = BACKEND_URL+"/api/v1/admin/orders";
   private update: string ='update/state/order';
 
   constructor(private httpClient:HttpClient, private headerService : HeaderService) { }
@@ -33,4 +35,10 @@ export class OrderService {
     const headers = this.headerService.getHeader();
     return this.httpClient.get<Order>(`${this.apiUrl}/${orderId}`, {headers});
   }
+
+  getOrderByStatus(status:OrderState):Observable<Order[]>{
+    const headers = this.headerService.getHeader();
+    return this.httpClient.get<Order[]>(`${this.apiUrlAdmin}/by-status/${status}`, {headers});
+  }
+
 }

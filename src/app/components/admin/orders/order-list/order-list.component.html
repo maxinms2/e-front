@@ -1,0 +1,47 @@
+<app-header-user></app-header-user>
+
+
+
+<!-- Page Content List Products-->
+<div class="container">
+    <!-- Page Heading/Breadcrumbs -->
+    <h1 class="mt-4 mb-3">
+        Market Fit <small>Órdenes</small>
+    </h1>
+
+    <ol class="breadcrumb">
+        <li class="breadcrumb-item"><a routerLink="">Home</a></li>
+    </ol>
+
+    <div class="form-group row">
+        <label class="control-label col-sm-2" for="nombre">Seleccione un estatus:</label>
+        <div class="col-sm-10">
+            <div class="combo-box">
+                <select id="orderState" [(ngModel)]="selectedOrderState" (change)="onOrderStateChange($event)">
+                    <option *ngFor="let state of orderStates" [value]="state">{{ state }}</option>
+                </select>
+            </div>
+        </div>
+    </div>
+    <h2>Órdenes</h2>
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Fecha</th>
+                <th>Estatus</th>
+                <th>Detalle</th>
+            </tr>
+        </thead>
+        <tbody *ngFor="let order of orders">
+            <tr>
+                <td>{{order.id}}</td>
+                <td>{{order.dateCreated | date: 'dd/MM/yyyy HH:mm:ss'}}</td>
+                <td>{{order.orderState}}</td>
+                <td><button class="btn btn-warning">Detalle</button> </td>
+                <!--td><button class="btn btn-warning" [routerLink]="['/admin/product/update', producto.id]">Detalle</button> </td-->
+
+            </tr>
+        </tbody>
+    </table>
+</div>
