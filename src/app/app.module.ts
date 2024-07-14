@@ -24,6 +24,7 @@ import { authGuard } from './guards/auth.guard';
 import { CustomCurrencyPipe } from './pipes/custom-currency.pipe';
 import { SweetAlert2Module } from '@sweetalert2/ngx-sweetalert2';
 import { OrderListComponent } from './components/admin/orders/order-list/order-list.component';
+import { OrderDetailComponent } from './components/admin/orders/order-detail/order-detail.component';
 
 
 
@@ -34,6 +35,8 @@ const routes : Routes = [
   {path: 'admin/product/update/:id', component:ProductAddComponent },
   {path: 'admin/category', component:CategoryListComponent },
   {path: 'admin/orders', component:OrderListComponent },
+
+  {path: 'admin/orders/:id', component:OrderDetailComponent },
   {path: 'admin/category/add', component:CategoryAddComponent},
   {path: 'admin/category/update/:id', component:CategoryAddComponent},
   {path: 'cart/detailproduct/:id/:model', component:DetailProductComponent},
@@ -62,7 +65,8 @@ const routes : Routes = [
     LoginComponent,
     LogoutComponent,
     CustomCurrencyPipe,
-    OrderListComponent
+    OrderListComponent,
+    OrderDetailComponent
   ],
   imports: [
     BrowserModule,

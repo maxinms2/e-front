@@ -1,0 +1,96 @@
+<p>exito {{id}}</p>
+<app-header-user> </app-header-user>
+
+<!-- Page Content -->
+<div class="container">
+
+    <!-- Page Heading/Breadcrumbs -->
+    <h1 class="mt-4 mb-3">
+        Market Fit <small>Órden</small>
+    </h1>
+
+    <ol class="breadcrumb">
+        <li class="breadcrumb-item"><a href="index.html">Home</a></li>
+    </ol>
+
+    <!-- Blog Post -->
+    <div class="card mb-4">
+        <div class="card-body">
+            <form action="#" method="POST">
+                <div class="row">
+                    <div class="col-lg-6">
+
+
+                        <ul class="list-group">
+                            <li class="list-group-item">
+                                <h5>Id orden: {{id}}</h5>
+                            </li>
+                            <li class="list-group-item">
+                                <h5>Cliente: {{clientName}}</h5>
+                            </li>
+                            <li>
+                                <div *ngFor="let option of options" class="radio-group">
+                                    <input type="radio" [id]="option.value" [value]="option.value" name="options"
+                                        (change)="onSelectionChange(option.value)"
+                                        [checked]="option.value === selectedOption">
+                                    <label [for]="option.value">{{ option.label }}</label>
+                                </div>
+                                <button (click)="saveOrder()" class="btn btn-dark">Modificar estatus
+                                </button>
+                            </li>
+                        </ul>
+
+                    </div>
+
+                    <div class="col-lg-6">
+
+                        <ul class="list-group">
+                            <!-- Contenido adicional en la segunda columna -->
+
+                            <li class="list-group-item">
+                                <h5>Fecha: {{dateCreated | date: 'dd-MM-yyyy HH:mm:ss'}}</h5>
+                            </li>
+                            <li class="list-group-item">
+                                <h5>Email: {{email}}</h5>
+                            </li>
+                            <li class="list-group-item">
+                                <h5>Teléfono: {{cellphone}}</h5>
+                            </li>
+                            <li class="list-group-item">
+                                <h4>Total de la orden: {{totalOrder | customCurrency:'MXN'}}</h4>
+                            </li>
+                        </ul>
+
+                    </div>
+
+                </div>
+
+            </form>
+        </div>
+        <h2>Productos de la orden</h2>
+        <table border="1">
+            <thead>
+                <tr>
+                    <th>PRODUCTO</th>
+                    <th>DESCRIPCIÓN</th>
+                    <th>TALLA</th>
+                    <th>CANTIDAD</th>
+                    <th>PRECIO</th>
+                    <th>SUBTOTAL</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let product of orderProducts">
+                    <td>{{ product.name }}</td>
+                    <td>{{ product.description }}</td>
+                    <td>{{ product.model }}</td>
+                    <td>{{ product.quantity }}</td>
+                    <td>{{ product.price | customCurrency:'MXN'}}</td>
+                    <td>{{ product.price * product.quantity | customCurrency:'MXN'}}</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+</div>
+<!-- /.container -->

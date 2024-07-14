@@ -4,6 +4,8 @@ export class OrderProduct {
         public productId:number,
         public quantity:number,
         public price:number,
-        public model:string
+        public model:string,
+        public name:string,
+        public description:string
         ){}
 }

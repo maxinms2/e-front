@@ -13,6 +13,7 @@ export class OrderService {
   private apiUrl : string = BACKEND_URL+"/api/v1/orders";
   private apiUrlAdmin : string = BACKEND_URL+"/api/v1/admin/orders";
   private update: string ='update/state/order';
+  private save: string ='save';
 
   constructor(private httpClient:HttpClient, private headerService : HeaderService) { }
 
@@ -20,6 +21,12 @@ export class OrderService {
     const headers = this.headerService.getHeader();
     return this.httpClient.post<Order>(this.apiUrl, order, {headers});
   }
+
+  updateStatusOrder(order:Order):Observable<Order>{
+    const headers = this.headerService.getHeader();
+    return this.httpClient.post<Order>(this.apiUrlAdmin, order, {headers});
+  }
+
 
   updateOrder(formData:any):Observable<any>{
     const headers = this.headerService.getHeader();

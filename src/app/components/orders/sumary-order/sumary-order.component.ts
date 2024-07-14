@@ -85,12 +85,12 @@ export class SumaryOrderComponent implements OnInit {
     this.items.forEach(
       item => {
         let orderProduct = new OrderProduct(null, item.productId,
-           item.quantity, item.price,item.model);
+           item.quantity, item.price,item.model,"","");
         this.orderProducts.push(orderProduct);
       }
     );
 
-    let order = new Order(null, new Date(), this.orderProducts, this.userId, OrderState.PROGRESS);
+    let order = new Order(null, new Date(), this.orderProducts, this.userId, OrderState.CONFIRMED);
     console.log('Order: ' + order.orderState);
     this.orderService.createOrder(order).subscribe(
       data => {

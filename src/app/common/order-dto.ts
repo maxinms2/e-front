@@ -5,5 +5,6 @@ export class OrderDTO {
         public id:number|null,
         public dateCreated:Date,
         public orderState:OrderState
+        
     ){}
 }

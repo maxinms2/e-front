@@ -99,7 +99,6 @@ export class ProductAddComponent implements OnInit{
 
       },
       error=>this.errorsService.redireccionaError(error.error)
-
     );
   }
 
