@@ -98,22 +98,11 @@ export class SumaryOrderComponent implements OnInit {
         this.sessionStorage.setItem('order', data);
         sessionStorage.removeItem("items");
         this.isLoading=false;
-        this.router.navigate(['/payment/success']); 
+        this.router.navigate(['/payment/success',data.id]); 
                
       },
       (error) => {
-        /*if (error.status === 400) {
-          this.isLoading=false;
-          this.router.navigate(['/']);
-          this.alerts.warning(error.error);
-        } else {
-          this.sessionStorage.removeItem('token');
-          this.isLoading=false;
-          //location.reload();
-          console.error(error.error);
-          this.alerts.error("Error de sistema o sesión finalizada. ");
-          this.router.navigate(['/']);
-        }*/
+
           this.errorsService.redireccionaError(error.error);
       }
     );
