@@ -1,6 +1,4 @@
-<p>exito {{id}}</p>
 <app-header-user> </app-header-user>
-
 <!-- Page Content -->
 <div class="container">
 
@@ -8,7 +6,9 @@
     <h1 class="mt-4 mb-3">
         Market Fit <small>Órden</small>
     </h1>
-
+    <div class="spinner-container" *ngIf="isLoading">
+        <div class="spinner"></div>
+    </div>
     <ol class="breadcrumb">
         <li class="breadcrumb-item"><a href="index.html">Home</a></li>
     </ol>
@@ -35,8 +35,8 @@
                                         [checked]="option.value === selectedOption">
                                     <label [for]="option.value">{{ option.label }}</label>
                                 </div>
-                                <button (click)="saveOrder()" class="btn btn-dark">Modificar estatus
-                                </button>
+                                <!--button (click)="saveOrder()" class="btn btn-dark">Modificar estatus
+                                </button-->
                             </li>
                         </ul>
 

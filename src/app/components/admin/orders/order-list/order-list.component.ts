@@ -12,10 +12,20 @@ import { OrderService } from 'src/app/services/order.service';
 export class OrderListComponent implements OnInit{
 
   constructor(private orderService:OrderService,private errorsService:ErrorsService){}
-
+  orderStateDescriptions: { [key: string]: string } = {
+    'CONFIRMED': 'ORDENES EN PROCESO DE ENTREGA',
+    'CANCELLED': 'ORDENES CANCELADAS',
+    'DELIVERED': 'ORDENES ENTREGADAS',
+  };
+  stateDescription: { [key: string]: string } = {
+    'CONFIRMED': 'EN PROCESO',
+    'CANCELLED': 'CANCELADA',
+    'DELIVERED': 'ENTREGADA',
+  };
   orderStates = Object.values(OrderState);
   orders :OrderDTO[]=[];
   selectedOrderState: OrderState=this.orderStates[0];
+  isLoading: boolean=false;
 
   ngOnInit(): void {
 
@@ -24,11 +34,14 @@ export class OrderListComponent implements OnInit{
   }
 
   fillTable(){
+    this.isLoading=true;
     this.orderService.getOrderByStatus(this.selectedOrderState).subscribe(
       data => {
-        this.orders = data;     
+        this.orders = data; 
+        this.isLoading=false;    
       },
         error=>{
+          this.isLoading=false;
           this.errorsService.redireccionaError(error.error);
         }
     );

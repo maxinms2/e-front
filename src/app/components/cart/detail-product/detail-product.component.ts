@@ -1,8 +1,11 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
+import { Category } from 'src/app/common/category';
+import { CategoryModel } from 'src/app/common/category-model';
 import { ItemCart } from 'src/app/common/item-cart';
 import { Jwtclient } from 'src/app/common/jwtclient';
+import { Product } from 'src/app/common/product';
 import { AlertsService } from 'src/app/services/alerts.service';
 import { CartService } from 'src/app/services/cart.service';
 import { ErrorsService } from 'src/app/services/errors.service';
@@ -24,7 +27,10 @@ export class DetailProductComponent implements OnInit {
   quantity : number = 0;
   token: Jwtclient | null = null;
   items : ItemCart [] = [];
-  model:string='';
+  //model:string='';
+  selectedModel: string='';
+  //category:Category|null=null;
+  categoryModels:CategoryModel[]=[];
 
   ngOnInit(): void {
     const tokenString = sessionStorage.getItem('token');
@@ -52,15 +58,21 @@ export class DetailProductComponent implements OnInit {
     
   }
 
+  onSelectedModelChange(event: any): void {
+    this.selectedModel = event.target.value;
+    console.log('Selected Order State y:', this.selectedModel);
+  }
+
   getProductById(){
     this.activatedRoute.params.subscribe(
       p => {
-        this.model = p['model'];
-        console.log("model=="+this.model);
+        //this.model = p['model'];
+        //console.log("model=="+this.model);
         let id = p['id'];
         if(id){
           this.homeService.getProductById(id).subscribe(
             data =>{
+              this.categoryModels=data.category.modelos;
               this.id = data.id;
               this.name = data.name;
               this.description = data.description;
@@ -92,7 +104,7 @@ export class DetailProductComponent implements OnInit {
       this.items[itemIndex].quantity+= this.quantity;
       this.alerts.success('Cantidad del producto modificada el carrito de compras');
     }else{
-      let item = new ItemCart(id, this.name, this.quantity, this.price,this.model);  
+      let item = new ItemCart(id, this.name, this.quantity, this.price,this.selectedModel);  
       this.items.push(item);
       console.log("itemsss="+this.items.length);
       this.alerts.success('Producto añadido al carrito de compras');

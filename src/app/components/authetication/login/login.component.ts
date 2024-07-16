@@ -35,7 +35,7 @@ export class LoginComponent implements OnInit{
         this.sessionStorage.removeItem('token');
         this.sessionStorage.setItem('token', token);
         if(token.type == 'ADMIN'){
-          this.router.navigate(['/admin/product']);
+          this.router.navigate(['/admin/orders']);
         }else{
           this.router.navigate(['/']);
         }

@@ -15,7 +15,7 @@ import { UserService } from 'src/app/services/user.service';
   styleUrls: ['./order-detail.component.css']
 })
 export class OrderDetailComponent implements OnInit {
-
+  isLoading:boolean=false;
   id: number = 0;
   dateCreated: Date|null = null;
   userId: number = 0;
@@ -29,7 +29,7 @@ export class OrderDetailComponent implements OnInit {
 
   options = [
     { value: 'CANCELLED', label: 'CANCELADA' },
-    { value: 'CONFIRMED', label: 'CONFIRMADA' },
+    { value: 'CONFIRMED', label: 'EN PROCESO' },
     { value: 'DELIVERED', label: 'ENTREGADA' }
   ];
   selectedOption: string='';
@@ -55,6 +55,8 @@ export class OrderDetailComponent implements OnInit {
       this.orderState=OrderState.DELIVERED
     }
     console.log("radio button==="+this.selectedOption);
+    
+    this.saveOrder();
   }
 
   getTotalOrden() {
@@ -76,6 +78,7 @@ export class OrderDetailComponent implements OnInit {
   }
 
   getOrder() {
+    this.isLoading=true;
     this.activatedRoute.params.subscribe(
       order => {
         this.id = order['id'];
@@ -92,48 +95,31 @@ export class OrderDetailComponent implements OnInit {
               console.log("Products===" + this.orderProducts.length);
               this.getUser();
               this.getTotalOrden();
+              this.isLoading=false;
             }
           );
         }
-
+        
       },
-      error => this.errorsService.redireccionaError(error.error)
+      error =>{
+         this.isLoading=false;
+         this.errorsService.redireccionaError(error.error);
+      }
     );
   }
 
   saveOrder() {
+    this.isLoading=true;
     let order:Order=new Order(this.id,this.dateCreated ?? new Date(),
     this.orderProducts,this.userId,this.orderState);
     this.orderService.updateStatusOrder(order).subscribe(
-        data=>this.alerts.success("Estatus modificado"),
+        data=>{
+          this.alerts.success("Estatus modificado");
+          this.isLoading=false;
+        },
         error=>this.errorsService.redireccionaError(error.error)
     );
-   /* let order = new Order(this.id, this.dateCreated, this.orderProducts, this.userId, OrderState.PROGRESS);
-    this.orderService.createOrder(order).subscribe(
-      data => {
-        console.log('Order creada con id: ' + data.id);
-        /*this.sessionStorage.setItem('order', data);
-        sessionStorage.removeItem("items");
-        this.isLoading=false;
-        this.router.navigate(['/payment/success']); 
 
-      },
-      (error) => {
-        /*if (error.status === 400) {
-          this.isLoading=false;
-          this.router.navigate(['/']);
-          this.alerts.warning(error.error);
-        } else {
-          this.sessionStorage.removeItem('token');
-          this.isLoading=false;
-          //location.reload();
-          console.error(error.error);
-          this.alerts.error("Error de sistema o sesión finalizada. ");
-          this.router.navigate(['/']);
-        }
-        this.errorsService.redireccionaError(error.error);
-      }
-    );*/
   }
 }
 
