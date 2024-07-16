@@ -31,8 +31,6 @@ export class HomeComponent implements OnInit{
       },
       error=>{
         this.errorsService.redireccionaError(error.error);
-        /*this.isLoading=false;
-        this.alerts.warning("Error de comunicación");*/
       }
     );
 

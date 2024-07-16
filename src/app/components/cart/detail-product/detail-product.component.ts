@@ -27,9 +27,7 @@ export class DetailProductComponent implements OnInit {
   quantity : number = 0;
   token: Jwtclient | null = null;
   items : ItemCart [] = [];
-  //model:string='';
   selectedModel: string='';
-  //category:Category|null=null;
   categoryModels:CategoryModel[]=[];
 
   ngOnInit(): void {
@@ -66,8 +64,6 @@ export class DetailProductComponent implements OnInit {
   getProductById(){
     this.activatedRoute.params.subscribe(
       p => {
-        //this.model = p['model'];
-        //console.log("model=="+this.model);
         let id = p['id'];
         if(id){
           this.homeService.getProductById(id).subscribe(
@@ -93,6 +89,10 @@ export class DetailProductComponent implements OnInit {
     if(this.quantity===0){
       this.alerts.warning('La cantidad del producto debe ser nayor que 0');
       return;
+    }
+    if(this.selectedModel===''){
+      this.alerts.warning('Seleccione una talla');
+      return;     
     }
     console.log('id product: ', id);
     console.log('name product: ', this.name);

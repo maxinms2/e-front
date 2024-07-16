@@ -74,6 +74,19 @@ a.primary-btn:hover{
   animation: spin 1s linear infinite;
 }
 
+.bordered {
+  border: 2px solid #f5efef; /* Puedes cambiar el color y el grosor del borde */
+  padding: 10px; /* Espacio interno entre el borde y el contenido */
+  border-radius: 5px; /* Bordes redondeados (opcional) */
+}
+
+.product-image {
+  max-width: 100%; /* Asegura que la imagen no exceda el ancho del contenedor */
+  height: auto; /* Mantiene la proporción de la imagen */
+  display: block; /* Quita el espacio inferior de las imágenes */
+  margin: 0 auto; /* Centra la imagen horizontalmente */
+}
+
 @keyframes spin {
   to {
     transform: rotate(360deg);
