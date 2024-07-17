@@ -87,6 +87,23 @@ a.primary-btn:hover{
   margin: 0 auto; /* Centra la imagen horizontalmente */
 }
 
+.custom-width {
+  width: 300px; /* Ajusta el ancho según tus necesidades */
+}
+
+.limited-width {
+  width: 300px; /* Ajusta el ancho según tus necesidades */
+}
+
+.limited-width .form-control {
+  width: 100%; /* Asegura que el input ocupe todo el ancho del contenedor */
+}
+
+.centered-container {
+  width: 50%; /* Ajusta el ancho según tus necesidades */
+  margin: 0 auto; /* Esto centrará el contenedor horizontalmente */
+}
+
 @keyframes spin {
   to {
     transform: rotate(360deg);

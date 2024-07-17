@@ -8,6 +8,7 @@ import { AlertsService } from 'src/app/services/alerts.service';
 import { ErrorsService } from 'src/app/services/errors.service';
 import { OrderService } from 'src/app/services/order.service';
 import { UserService } from 'src/app/services/user.service';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-order-detail',
@@ -55,8 +56,30 @@ export class OrderDetailComponent implements OnInit {
       this.orderState=OrderState.DELIVERED
     }
     console.log("radio button==="+this.selectedOption);
+
+    Swal.fire({
+      title: '¿Desea cambiar el estatus ?',
+      text: "",
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+      confirmButtonText: 'Modificar estatus',
+      cancelButtonText: 'Cancelar'
+    }).then((result) => {
+      if (result.isConfirmed) {
+        this.saveOrder();
+        Swal.fire(
+          'Órdenes',
+          'Estatus actualizado.',
+          'success'
+        )
+      }else{
+        window.location.reload();
+      }
+    })
     
-    this.saveOrder();
+    
   }
 
   getTotalOrden() {
@@ -111,7 +134,7 @@ export class OrderDetailComponent implements OnInit {
   saveOrder() {
     this.isLoading=true;
     let order:Order=new Order(this.id,this.dateCreated ?? new Date(),
-    this.orderProducts,this.userId,this.orderState);
+    this.orderProducts,this.userId,this.orderState,"","");
     this.orderService.updateStatusOrder(order).subscribe(
         data=>{
           this.alerts.success("Estatus modificado");

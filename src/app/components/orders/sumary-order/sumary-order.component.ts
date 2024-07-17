@@ -90,7 +90,8 @@ export class SumaryOrderComponent implements OnInit {
       }
     );
 
-    let order = new Order(null, new Date(), this.orderProducts, this.userId, OrderState.CONFIRMED);
+    let order = new Order(null, new Date(), this.orderProducts, this.userId,
+     OrderState.CONFIRMED,"","");
     console.log('Order: ' + order.orderState);
     this.orderService.createOrder(order).subscribe(
       data => {

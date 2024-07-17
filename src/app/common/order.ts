@@ -7,7 +7,9 @@ export class Order {
         public dateCreated:Date,
         public orderProducts:OrderProduct [],
         public userId:number,
-        public orderState:OrderState
+        public orderState:OrderState,
+        public userName:string,
+        public email:string
     ){}
 
     getTotal(){

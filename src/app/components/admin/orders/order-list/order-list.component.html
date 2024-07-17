@@ -31,6 +31,7 @@
             <tr>
                 <th>Id</th>
                 <th>Fecha</th>
+                <th>Cliente</th>
                 <th>Estatus</th>
                 <th>Detalle</th>
             </tr>
@@ -38,7 +39,8 @@
         <tbody *ngFor="let order of orders">
             <tr>
                 <td>{{order.id}}</td>
-                <td>{{order.dateCreated | date: 'dd/MM/yyyy HH:mm:ss'}}</td>
+                <td>{{order.dateCreated | date: 'dd/MM/yyyy'}}</td>
+                <td>{{order.userName}}</td>
                 <td>{{stateDescription[order.orderState]}}</td>
                 <td><button class="btn btn-warning" [routerLink]="['/admin/orders', order.id]">Detalle</button> </td>
 

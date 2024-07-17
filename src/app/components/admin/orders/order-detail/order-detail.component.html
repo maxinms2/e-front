@@ -29,6 +29,7 @@
                                 <h5>Cliente: {{clientName}}</h5>
                             </li>
                             <li>
+                                <h5>Estatus de la orden:</h5>
                                 <div *ngFor="let option of options" class="radio-group">
                                     <input type="radio" [id]="option.value" [value]="option.value" name="options"
                                         (change)="onSelectionChange(option.value)"

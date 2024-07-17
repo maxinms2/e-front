@@ -4,7 +4,8 @@ export class OrderDTO {
     constructor(
         public id:number|null,
         public dateCreated:Date,
-        public orderState:OrderState
-        
+        public orderState:OrderState,
+        public userName:string,
+        public email:string
     ){}
 }
