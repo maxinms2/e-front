@@ -5,6 +5,7 @@ import { Observable } from 'rxjs';
 import { HeaderService } from './header.service';
 import { BACKEND_URL } from '../config/config';
 import { OrderState } from '../common/order-state';
+import { OrderPage } from '../common/order-page';
 
 @Injectable({
   providedIn: 'root'
@@ -46,6 +47,11 @@ export class OrderService {
   getOrderByStatus(status:OrderState):Observable<Order[]>{
     const headers = this.headerService.getHeader();
     return this.httpClient.get<Order[]>(`${this.apiUrlAdmin}/by-status/${status}`, {headers});
+  }
+
+  getOrderPage(page:OrderPage):Observable<any>{
+    const headers = this.headerService.getHeader();
+    return this.httpClient.post<any>(`${this.apiUrlAdmin}/page`,page, {headers});
   }
 
 }

@@ -10,13 +10,12 @@
         <div class="spinner"></div>
     </div>
 
-    <ol class="breadcrumb">
+    <!--ol class="breadcrumb">
         <li class="breadcrumb-item"><a routerLink="">Home</a></li>
-    </ol>
+    </ol-->
 
-    <div class="form-group row">
-        <label class="control-label col-sm-2" for="nombre">Seleccione un estatus:</label>
-        <div class="col-sm-10">
+    <div class="row">
+        <div class="col-lg-6">
             <div class="combo-box">
                 <select id="orderState" [(ngModel)]="selectedOrderState" (change)="onOrderStateChange($event)">
                     <option *ngFor="let state of orderStates" [value]="state">{{ orderStateDescriptions[state] }}
@@ -24,7 +23,22 @@
                 </select>
             </div>
         </div>
+        <div class="col-lg-6">
+            <label for="name">Nombre:</label>
+            <input [(ngModel)]="fullName" type="text" id="name" name="name">
+
+        </div>
+        <div class="col-lg-6">
+            <label for="email">Email:</label>
+            <input [(ngModel)]="email" type="text" id="email" name="email">
+        </div>
+        <div class="col-lg-6">
+            <button (click)="fillTable()" class="btn btn-dark">Buscar </button>
+        </div>
     </div>
+    <p></p>
+
+
     <h2>Órdenes</h2>
     <table class="table">
         <thead>
@@ -47,4 +61,8 @@
             </tr>
         </tbody>
     </table>
+    <app-pagination [currentPage]="currentPage" [totalPages]="calculateTotalPages()"
+        (pageChange)="onPageChange($event)">
+    </app-pagination>
+
 </div>

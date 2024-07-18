@@ -21,8 +21,9 @@ export class ProductAddComponent implements OnInit{
   price : number = 0;
   urlImage : string = '';
   userId : string = '0';
-  categoryId : string = '3';
+  categoryId : string = '1';
   user : number = 0;
+  editProduct:boolean=false;
 
   selectFile! : File;
 
@@ -44,6 +45,7 @@ export class ProductAddComponent implements OnInit{
     this.getProductById();
     this.user = this.sessionStorage.getItem('token').id;
     this.userId = this.user.toString();
+    console.log("id======="+this.id);
   }
   addProduct(){
     const formData = new FormData();
@@ -82,7 +84,6 @@ export class ProductAddComponent implements OnInit{
       prod => {
         let id = prod['id'];
         if(id){
-          console.log('el valor de la variable id es: '+id);
           this.productService.getProductById(id).subscribe(
             data =>{
               this.id = data.id;
@@ -93,10 +94,12 @@ export class ProductAddComponent implements OnInit{
               this.price = data.price;
               this.userId = data.userId;
               this.categoryId = data.categoryId;
+              console.log('cattttt='+this.categoryId);
+              this.editProduct=true;
             }
           );
         }
-
+        console.log('el valor de la editProduct: '+this.editProduct);
       },
       error=>this.errorsService.redireccionaError(error.error)
     );

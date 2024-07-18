@@ -104,9 +104,17 @@ a.primary-btn:hover{
   margin: 0 auto; /* Esto centrará el contenedor horizontalmente */
 }
 
+.active-page {
+  /*background-color: #081727; /* color de fondo azul para indicar página activa */
+  color: #8a0909; /* color de texto blanco */
+}
+
+
 @keyframes spin {
   to {
     transform: rotate(360deg);
   }
+
+  
 }
 

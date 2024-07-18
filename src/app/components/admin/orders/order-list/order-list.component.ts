@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { OrderDTO } from 'src/app/common/order-dto';
+import { OrderPage } from 'src/app/common/order-page';
 import { OrderState } from 'src/app/common/order-state';
 import { ErrorsService } from 'src/app/services/errors.service';
 import { OrderService } from 'src/app/services/order.service';
@@ -26,6 +27,14 @@ export class OrderListComponent implements OnInit{
   orders :OrderDTO[]=[];
   selectedOrderState: OrderState=this.orderStates[0];
   isLoading: boolean=false;
+  orderPage:OrderPage=new OrderPage(OrderState.CONFIRMED,'','',0,3);
+
+  currentPage: number = 1; // Página actual
+  itemsPerPage: number = 2; // Número de elementos por página (ajustable según tus necesidades)
+  totalElements: number = 0;
+
+  fullName:string='';
+  email:string='';
 
   ngOnInit(): void {
 
@@ -34,11 +43,14 @@ export class OrderListComponent implements OnInit{
   }
 
   fillTable(){
+    this.orderPage=new OrderPage(this.selectedOrderState,this.fullName,this.email,
+      this.currentPage-1,this.itemsPerPage);
     this.isLoading=true;
-    this.orderService.getOrderByStatus(this.selectedOrderState).subscribe(
+    this.orderService.getOrderPage(this.orderPage).subscribe(
       data => {
-        this.orders = data; 
-        this.isLoading=false;    
+        this.orders = data.content; 
+        this.isLoading=false; 
+        this.totalElements=data.totalElements; 
       },
         error=>{
           this.isLoading=false;
@@ -47,11 +59,23 @@ export class OrderListComponent implements OnInit{
     );
   }
 
+
   onOrderStateChange(event: any): void {
     this.selectedOrderState = event.target.value;
     console.log('Selected Order State:', this.selectedOrderState);
+    this.currentPage=1;
     this.fillTable();
   }
 
+  onPageChange(page: number): void {
+
+    this.currentPage = page; // Actualiza la página actual
+    console.log("this.currentpge==="+this.currentPage);
+    this.fillTable();
+  }
+
+  calculateTotalPages(): number {
+    return Math.ceil(this.totalElements / this.itemsPerPage);
+  }
 
 }

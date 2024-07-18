@@ -25,8 +25,7 @@ import { CustomCurrencyPipe } from './pipes/custom-currency.pipe';
 import { SweetAlert2Module } from '@sweetalert2/ngx-sweetalert2';
 import { OrderListComponent } from './components/admin/orders/order-list/order-list.component';
 import { OrderDetailComponent } from './components/admin/orders/order-detail/order-detail.component';
-
-
+import { PaginationComponent } from './components/pagination/pagination.component';
 
 const routes : Routes = [
   {path:'', component:HomeComponent},
@@ -66,7 +65,8 @@ const routes : Routes = [
     LogoutComponent,
     CustomCurrencyPipe,
     OrderListComponent,
-    OrderDetailComponent
+    OrderDetailComponent,
+    PaginationComponent
   ],
   imports: [
     BrowserModule,

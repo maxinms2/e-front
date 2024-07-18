@@ -1,0 +1,15 @@
+<div class="pagination-container">
+    <div class="page-info">
+       <div *ngIf="totalPages > 0"> Página {{ currentPage }} de {{ totalPages }}</div>
+       <div *ngIf="totalPages < 1"> No hay registros</div>
+    </div>
+    <button class="page-btn nav-btn" (click)="goToFirstPage()" [disabled]="currentPage === 1">&lt;&lt;</button>
+    <button class="page-btn nav-btn" (click)="prevPage()" [disabled]="currentPage === 1">&lt;</button>
+    <ng-container *ngFor="let page of getPageNumbers()">
+        <button class="page-btn" [class.active]="page === currentPage" (click)="setPage(page)">
+            {{ page }}
+        </button>
+    </ng-container>
+    <button class="page-btn nav-btn" (click)="nextPage()" [disabled]="currentPage === totalPages || totalPages===0">&gt;</button>
+    <button class="page-btn nav-btn" (click)="goToLastPage()" [disabled]="currentPage === totalPages || totalPages===0">&gt;&gt;</button>
+</div>

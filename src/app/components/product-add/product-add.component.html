@@ -7,15 +7,14 @@
     <h1 class="mt-4 mb-3">
       Market Fit <small>Productos</small>
     </h1>
-  
     <ol class="breadcrumb">
       <li class="breadcrumb-item"><a routerLink ="">Home</a></li>
-      <li class="breadcrumb-item active">Crear Productos</li>
     </ol>
   
-    <h2>Crear Producto</h2>
+    <h2 *ngIf="!editProduct">Crear Producto</h2>
+    <h2 *ngIf="editProduct">Editar Producto</h2>
     <form class="form-horizontal" (ngSubmit)="addProduct()" enctype="multipart/form-data">
-      <input  type="hidden" [(ngModel)]="id">
+      <!--input  type="hidden" [(ngModel)]="id"-->
 
       <div class="form-group row">
         <label class="control-label col-sm-2" for="nombre">Elija una categoría:</label>
