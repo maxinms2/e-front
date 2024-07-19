@@ -13,7 +13,7 @@ export class ErrorsService {
 
   redireccionaError(error:string){
     console.log("error======"+error);
-    this.alerts.warning("Ha perdido la conexión con el servidor, ingrese nuevamente");
+    this.alerts.warning("Sesión finalizada, ingrese nuevamente");
     this.sessionStorage.removeItem('token');
     this.router.navigate(['/user/login']);
   }
