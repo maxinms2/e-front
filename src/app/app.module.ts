@@ -26,6 +26,7 @@ import { SweetAlert2Module } from '@sweetalert2/ngx-sweetalert2';
 import { OrderListComponent } from './components/admin/orders/order-list/order-list.component';
 import { OrderDetailComponent } from './components/admin/orders/order-detail/order-detail.component';
 import { PaginationComponent } from './components/pagination/pagination.component';
+import { EstadisticasComponent } from './components/estadisticas/estadisticas.component';
 
 const routes : Routes = [
   {path:'', component:HomeComponent},
@@ -43,7 +44,8 @@ const routes : Routes = [
   {path: 'payment/success/:id', component: PaymentSuccessComponent},
   {path: 'user/register', component: RegistrationComponent},
   {path: 'user/login', component: LoginComponent},
-  {path: 'logout', component: LogoutComponent}
+  {path: 'logout', component: LogoutComponent},
+  {path: 'estadisticas', component: EstadisticasComponent}
 
 ];
 
@@ -66,7 +68,8 @@ const routes : Routes = [
     CustomCurrencyPipe,
     OrderListComponent,
     OrderDetailComponent,
-    PaginationComponent
+    PaginationComponent,
+    EstadisticasComponent
   ],
   imports: [
     BrowserModule,

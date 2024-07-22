@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { ItemCart } from '../common/item-cart';
 import { SessionStorageService } from './session-storage.service';
+import { BehaviorSubject } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
@@ -15,6 +16,14 @@ export class CartService {
 
   constructor() {
 
+   }
+
+   private cartItemCount = new BehaviorSubject<number>(0);
+
+   cartItemCount$ = this.cartItemCount.asObservable();
+ 
+   updateCartItemCount(count: number) {
+     this.cartItemCount.next(count);
    }
 
   addItemCart(itemCart : ItemCart){
@@ -53,5 +62,21 @@ export class CartService {
     return this.itemList;
   }
 
+  getNumberItemsCart(){
+    let itemsStorage = [];
+    let totalCount:number=0;
+    const itemsString = sessionStorage.getItem('items');
+    if (itemsString) {
+      console.log("itemsString====" + itemsString);
+      itemsStorage = JSON.parse(itemsString);
+      itemsStorage.forEach(
+        (item: { quantity: number; }) => {
+          totalCount+=item.quantity;
+        }
+      );
+    }
+    console.log("totalCountcart===="+totalCount);
+    return totalCount;
+  }
 
 }

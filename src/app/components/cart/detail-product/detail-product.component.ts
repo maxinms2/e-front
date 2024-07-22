@@ -48,6 +48,7 @@ export class DetailProductComponent implements OnInit {
     } 
   
     this.getProductById();
+    this.cartService.updateCartItemCount(this.cartService.getNumberItemsCart());
   }
 
   constructor(private homeService:HomeService, private activatedRoute: ActivatedRoute, 
@@ -99,17 +100,23 @@ export class DetailProductComponent implements OnInit {
     console.log('price product: ', this.price);
     console.log('quantity product: ', this.quantity);
     
-    const itemIndex = this.items.findIndex(i => i.productId === id);
+    const itemIndex = this.items.findIndex(i => i.productId === id && i.model===this.selectedModel
+    );
+    console.log("idddd====="+itemIndex);
     if (itemIndex !== -1) {
+      console.log('ojo1');
       this.items[itemIndex].quantity+= this.quantity;
-      this.alerts.success('Cantidad del producto modificada el carrito de compras');
+      this.alerts.success('Cantidad del producto modificada del carrito de compras');
     }else{
-      let item = new ItemCart(id, this.name, this.quantity, this.price,this.selectedModel);  
+      console.log('ojo2');
+      let item = new ItemCart(id, this.name, this.quantity, this.price,
+        this.selectedModel,this.description);  
       this.items.push(item);
       console.log("itemsss="+this.items.length);
       this.alerts.success('Producto añadido al carrito de compras');
     }  
     sessionStorage.setItem('items', JSON.stringify(this.items)); 
+    this.cartService.updateCartItemCount(this.cartService.getNumberItemsCart());
     this.router.navigate(['/']);
   }
 

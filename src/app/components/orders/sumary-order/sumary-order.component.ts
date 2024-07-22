@@ -7,6 +7,7 @@ import { Order } from 'src/app/common/order';
 import { OrderProduct } from 'src/app/common/order-product';
 import { OrderState } from 'src/app/common/order-state';
 import { AlertsService } from 'src/app/services/alerts.service';
+import { CartService } from 'src/app/services/cart.service';
 import { ErrorsService } from 'src/app/services/errors.service';
 import { OrderService } from 'src/app/services/order.service';
 import { PaymentService } from 'src/app/services/payment.service';
@@ -37,7 +38,8 @@ export class SumaryOrderComponent implements OnInit {
     private router: Router,
     private sessionStorage: SessionStorageService,
     private alerts:AlertsService,
-    private errorsService:ErrorsService
+    private errorsService:ErrorsService,
+    private cartService:CartService
   ) { }
 
 
@@ -61,9 +63,10 @@ export class SumaryOrderComponent implements OnInit {
     }
 
     itemsStorage.forEach(
-      (item: { productId: number; productName: string; quantity: number; price: number;model:string }) => {
+      (item: { productId: number; productName: string; quantity: number;
+         price: number;model:string,description:string }) => {
         let itemCart = new ItemCart(item.productId, item.productName,
-           item.quantity, item.price,item.model);
+           item.quantity, item.price,item.model,item.description);
         this.items.push(itemCart);
       }
     );
@@ -99,6 +102,7 @@ export class SumaryOrderComponent implements OnInit {
         this.sessionStorage.setItem('order', data);
         sessionStorage.removeItem("items");
         this.isLoading=false;
+        this.cartService.updateCartItemCount(this.cartService.getNumberItemsCart());
         this.router.navigate(['/payment/success',data.id]); 
                
       },
@@ -108,20 +112,6 @@ export class SumaryOrderComponent implements OnInit {
       }
     );
 
-    //redireccion y pago con paypal
-    /*let urlPayment;
-    let dataPayment = new DataPayment('PAYPAL', this.totalCart.toString(), 'USD', 'COMPRA');
-
-    console.log('Data Payment:', dataPayment);
-
-    this.paymentService.getUrlPaypalPayment(dataPayment).subscribe(
-      data => {
-        urlPayment = data.url;
-        console.log('Respuesta exitosa...');
-        window.location.href = urlPayment;
-      }
-    );*/
-
 
 
   }
@@ -130,6 +120,7 @@ export class SumaryOrderComponent implements OnInit {
     this.items = this.items.filter(item => item.productId !== productId);
     sessionStorage.setItem('items', JSON.stringify(this.items));
     this.totalCart = this.getTotalCart();
+    this.cartService.updateCartItemCount(this.cartService.getNumberItemsCart());
   }
 
   getUserById(id: number) {
