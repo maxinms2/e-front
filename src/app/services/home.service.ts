@@ -3,6 +3,8 @@ import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { Product } from '../common/product';
 import { BACKEND_URL } from '../config/config';
+import { ProductCategoryName } from '../common/product-category-name';
+import { Category } from '../common/category';
 
 @Injectable({
   providedIn: 'root'
@@ -16,9 +18,17 @@ export class HomeService {
     return this.httpClient.get<Product[]>(this.apiUrl);
   }
 
+  getProductsCategoryName(productCategoryName:ProductCategoryName):Observable<Product[]>{
+    return this.httpClient.post<Product[]>(this.apiUrl,productCategoryName);
+  }
+
   getProductById(id:number):Observable<Product>{
     console.log('url---------------------'+this.apiUrl);
     
     return this.httpClient.get<Product>(this.apiUrl+"/"+id);
+  }
+
+  getCategoryList():Observable<Category[]>{
+    return this.httpClient.get<Category[]>(this.apiUrl+"/categories");
   }
 }

@@ -30,7 +30,7 @@ export class OrderListComponent implements OnInit{
   orderPage:OrderPage=new OrderPage(OrderState.CONFIRMED,'','',0,3);
 
   currentPage: number = 1; // Página actual
-  itemsPerPage: number = 2; // Número de elementos por página (ajustable según tus necesidades)
+  itemsPerPage: number = 10; // Número de elementos por página (ajustable según tus necesidades)
   totalElements: number = 0;
 
   fullName:string='';
