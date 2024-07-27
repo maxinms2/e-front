@@ -134,6 +134,14 @@ a.primary-btn:hover{
   font-size: 12px;
 }
 
+.header-container {
+  display: flex;
+  align-items: center;
+}
+
+.header-container img {
+  margin-right: 20px; /* Ajusta el espacio entre la imagen y el texto */
+}
 
 
 
